@@ -259,6 +259,6 @@ function fillAboutMenu() {
     + "<p>Some other projects.</p>"
     + "<p><a href='https://github.com/44xtc44/EisenRadio'><img id='aircraftLogo' src=/static/images/aircraft_logo.png></a></p>"
     + "<p>'aac-repair' (aacp) <a href=https://www.npmjs.com/package/aac-repair>https://www.npmjs.com/package/aac-repair</a></p>"
-    
+    + "<p>aac-repair can fix files recorded from streams. Those files can lead to playlist stuck.</p>"
     ;
 }
