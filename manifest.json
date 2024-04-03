@@ -1,0 +1,20 @@
+{
+  "version":"1.0",
+  "name":"Playlist Shuffle Booster [Volume Gain]",
+  "description": "Booster runs Bluetooth ear buds. Quickly shuffle, play a local sound file folder. (aac, mp3, ogg, ...)",
+  "manifest_version":2,
+  "browser_action": {
+    "default_icon": {
+      "16": "/static/images/default_icon.svg",
+      "32": "/static/images/default_icon.svg"
+    }
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "tabs"
+  ]
+}
