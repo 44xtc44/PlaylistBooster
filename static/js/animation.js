@@ -1,7 +1,7 @@
 // animation.js
 "use strict";
 
-window.frameCount = 0;
+window.frameCount = 0;  // use with modulo to skip animation frames to decrease load
 
 function animationMain() {
     // switch index to call next fun from list

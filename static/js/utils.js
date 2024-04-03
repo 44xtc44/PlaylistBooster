@@ -62,6 +62,10 @@ function toggleRunMenu() {
   }, 50);
 }
 
+/**
+ * Get the active current day or night mode.
+ * @returns {boolean} true if dark background color (grey night color)
+ */
 function getBodyColor() {
   let bodyStyle = window.getComputedStyle(document.body, null);
   let backgroundColor = bodyStyle.backgroundColor;
@@ -70,16 +74,4 @@ function getBodyColor() {
     darkBody = true;
   } else { darkBody = false; }
   return darkBody;
-}
-
-/**
-* Random integer.
-* @param {int} min - minimum
-* @param {int} max - maximum
-* @return random int between and inclusive min and max integer
-*/
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

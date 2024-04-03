@@ -1,28 +1,22 @@
 // index.js
 "use strict";
 
-/* 
-  Side, light project of EisenRadio on GitHub (Snapcraft.io, Pypi) without recorder.
-  Most names are taken over from source project to make it more easy to maintain booth.
-  This project is using some elements from React layout to make the HTML and JS more readable.
-*/
 const root = document.getElementById("root");
 const audio = document.createElement("audio");
 const audioVolume = document.createElement("input");  // slider
-const audioGain = document.createElement("input");  // slider show only for local sound
+const audioGain = document.createElement("input");  // slider show only for local sound, network is blocked
 const audioContext = new AudioContext();
 var audioSource = null;
 const gainNode = audioContext.createGain();
 const analyserNodeOne = audioContext.createAnalyser();
 const analyserNodeTwo = audioContext.createAnalyser();  // second analyzer show, other fft size
 
-var activeRadioName = "EisenRadio"; 
+var activeRadioName = "";  // future use for inet radios
 
 window.addEventListener('load', function () {
   createAudio();
   createPlayGround();
   arrangePlayGround();
-  // runNetworkSound("https://hirschmilch.de:7001/prog-house.mp3"); // unexpected, needs a button
 });
 
 function createAudio() {
