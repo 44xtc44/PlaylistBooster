@@ -45,6 +45,7 @@ class PlayList {
     this.playLocalAudio();
     this.drawButtons();
     this.addListenerButtons();
+    this.divLogo.innerText = this.playList.length + " tracks. Audio gain slider for more pressure.";
   }
   playLocalAudio() {
     let self = this;  // bind() thingy
@@ -52,17 +53,16 @@ class PlayList {
     // created a txt createHtmlDisplay(); display parent is "divPlayListShow" div;
     // each <track name> is shown on its own child div, this div has the div.id attribute set as <track name> to be unique
     let curTitleName = document.getElementById(this.playList[this.trackNumber].name);
-    curTitleName.innerHTML = showText;
+    curTitleName.innerText = showText;
     curTitleName.style.background = "linear-gradient(to left, #f46b45, #eea849)";
     curTitleName.style.color = "black";
     curTitleName.style.fontSize = "100%";
     curTitleName.style.fontWeight = "600";
-    this.divLogo.innerHTML = this.playList.length + " tracks. Audio gain slider for more pressure.";
 
     audio.src = URL.createObjectURL(this.playList[this.trackNumber]);
     audio.onended = function () {
       // get rid of the hand
-      curTitleName.innerHTML = self.playList[self.trackNumber].name
+      curTitleName.innerText = self.playList[self.trackNumber].name
       //change color of played filename
       self.markPlayedFile(self.playList[self.trackNumber].name);
       self.trackNumber++;
@@ -121,14 +121,13 @@ class PlayList {
     let fileUpload = this.fileUpload;
     let parent = this.divPlayListShow;
     let id = "";
-    let innerHTML = "";
+    let innerText = "";
     let elemClass = "divChildOfPlayListShow";
 
     this.removeDiv({ id: parent });  // old HTML display
     for (let i = 0; i < this.fileUpload.files.length; ++i) {
-      id = this.fileUpload.files[i]["name"];  // DOM needs unique id
-      innerHTML = id;
-      this.appendDiv({ parent: parent, id: id, id: id, elemClass: elemClass, innerHTML: innerHTML });
+      innerText = id = this.fileUpload.files[i]["name"];  // DOM needs unique id
+      this.appendDiv({ parent: parent, id: id, elemClass: elemClass, innerText: innerText });
     }
   }
   appendDiv(opt) {
@@ -136,7 +135,7 @@ class PlayList {
     let div = document.createElement('div');
     div.id = opt.id;  // id of new child
     div.classList.add(opt.elemClass);
-    div.innerHTML = opt.innerHTML;
+    div.innerText = opt.innerText;
     div.style.background = "#FED8B1";  // or ffd580 rgb(255, 213, 128)
     div.style.fontWeight = "500";
     div.style.padding = "2px";
@@ -168,7 +167,7 @@ class PlayList {
     /* Moving through playlist. */
     let parent = this.divPlayListShow;
     let id;
-    let innerHTML;
+    let innerText;
     this.playBtn.addEventListener("click", (e) => {
       audio.play();
     });
@@ -179,8 +178,7 @@ class PlayList {
       /*
         The list is rebuild on every click.
       */
-      let self = this;  // For me an ordered JS malfunction; Must change context inside an instance!?
-      // Looks like flask.current_app, use in a factory app_context(). Change application context. How to debug this mess? Have fun :)
+      let self = this;
       if (self.trackNumber == (self.playList.length - 1)) { return; }
       if (self.trackNumber < self.playList.length) {
         // clean up div element
@@ -190,8 +188,8 @@ class PlayList {
         // redraw the list with remaining titles, first header then titles in loop
         for (let i = self.trackNumber; i < self.playList.length; ++i) {
           id = self.playList[i].name;
-          innerHTML = "&#8226; " + self.playList[i].name;
-          self.appendDiv({ parent: parent, id: id, innerHTML: innerHTML });
+          innerText = "* " + self.playList[i].name;
+          self.appendDiv({ parent: parent, id: id, innerText: innerText });
         }
         self.trackNumber++;
         self.playLocalAudio();
@@ -209,8 +207,8 @@ class PlayList {
         // go back one index num from current and draw original partial list from there
         for (let i = (self.trackNumber - 1); i < self.playList.length; ++i) {
           id = self.playList[i].name;
-          innerHTML = "&#8226; " + self.playList[i].name;
-          self.appendDiv({ parent: parent, id: id, innerHTML: innerHTML });
+          innerText = "* " + self.playList[i].name;
+          self.appendDiv({ parent: parent, id: id, innerText: innerText });
         }
         self.trackNumber--;
         self.playLocalAudio();
