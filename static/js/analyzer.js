@@ -9,6 +9,7 @@ class SwitchAnalyzer {
       this.stageAnalyzerShow = true;
       this.analyzerListIdx = 0;
       this.analyzerList = [
+        () => disableAnalyzer({ canvasId: "rowCanvas" }),
         () => stageAnimatedBars({ canvasId: "rowCanvas", clearRect: true }),
         () => stageDrawAnalyzer({ canvasId: "rowCanvas" })
       ];
@@ -93,6 +94,36 @@ class SwitchAnalyzer {
     }
   }
   
+  function disableAnalyzer(opt) {
+    let canvas = document.getElementById(opt.canvasId);
+    let ctx = canvas.getContext('2d');
+    // cloud github.com stephenrichard.fr
+    ctx.beginPath();
+    ctx.moveTo(50, 100);
+    ctx.lineTo(175, 100);
+    ctx.bezierCurveTo(200, 100, 200, 50, 175, 50);
+    ctx.bezierCurveTo(175, 10, 110, 10, 105, 40);
+    ctx.bezierCurveTo(110, 40, 75, 25, 60, 60);
+    ctx.bezierCurveTo(60, 60, 25, 70, 50, 100);
+
+    ctx.fillStyle = '#858585';
+    ctx.fill();
+
+    // light github.com stephenrichard.fr
+    ctx.beginPath();
+    ctx.moveTo(120, 100);
+    ctx.lineTo(145, 100);
+    ctx.lineTo(135, 120);
+    ctx.lineTo(155, 120);
+    ctx.lineTo(115, 176);
+    ctx.lineTo(125, 140);
+    ctx.lineTo(100, 140);
+
+    ctx.fillStyle = 'lightyellow';
+    ctx.fill();
+    ctx.closePath();
+
+  }
   function toggleRowAnalyzer() {
     switchAnalyzer.update();
   }
