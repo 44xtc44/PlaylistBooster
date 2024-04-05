@@ -5,8 +5,8 @@ Overview
 ---------
 This repository shows the source code of a browser add-on.
 
-* Quickly shuffle and play a local sound file folder
-* Play sound files the browser supports. mp4, aac, mp3, ogg, flac, wbem, wav, ...
+* Shuffle and play a media file folder
+* Play browser supported media files. mp4, aac, mp3, ogg, flac, wbem, wav, ...
 * Gain booster runs Bluetooth ear buds
 
 HowTo
@@ -17,15 +17,22 @@ Enable the shuffle selector checkbox and press the "files" button to select file
 .. image:: ./localFolderGain.png
             :alt: local folder with open gain slider
             :class: with-border
-            :height: 500
-            :target: https://github\.com/44xtc44/EisenRadio-chaquopy
+            :height: 525
 
 -
 
 .. image:: ./fileSelectWindow.png
             :alt: file selector window
             :class: with-border
-            :height: 500
+            :height: 525
+
+-
+
+.. image:: ./mixVideoAacpWindow.png
+            :alt: folder mixed video and aacp audio
+            :class: with-border
+            :height: 625
+
 
 Gain - preamp
 --------------
