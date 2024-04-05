@@ -2,29 +2,33 @@
 "use strict";
 
 const root = document.getElementById("root");
-const audio = document.createElement("audio");
+const video = document.createElement("video");
 const audioVolume = document.createElement("input");  // slider
 const audioGain = document.createElement("input");  // slider show only for local sound, network is blocked
 const audioContext = new AudioContext();
 var audioSource = null;
+var videoSource = null;
 const gainNode = audioContext.createGain();
 const analyserNodeOne = audioContext.createAnalyser();
 const analyserNodeTwo = audioContext.createAnalyser();  // second analyzer show, other fft size
 
+var playList = undefined;
 var activeRadioName = "";  // future use for inet radios
 
 window.addEventListener('load', function () {
   createAudio();
   createPlayGround();
   arrangePlayGround();
+  connectAnalyzer();
+  animationMain();
 });
 
 function createAudio() {
-  audio.setAttribute("id", "audioWithControls");
-  audio.setAttribute("autoplay", "");
-  audio.setAttribute("controls", "");
-  audio.setAttribute("volume", "0.75");
-  audio.style.display = "none";
+  // video element plays audio too
+  video.setAttribute("id", "videoWithControls");
+  video.setAttribute("autoplay", "");
+  video.setAttribute("controls", "");
+  video.setAttribute("volume", "0.75");
   audioVolume.setAttribute("id", "audioVolumeController");
   audioVolume.setAttribute("type", "range");
   audioVolume.setAttribute("value", "75");
@@ -34,7 +38,6 @@ function createAudio() {
   audioGain.setAttribute("min", "1");
   audioGain.setAttribute("max", "5");
   audioGain.setAttribute("step", "0.1");
-  root.appendChild(audio);
   root.appendChild(audioVolume);
   root.appendChild(audioGain);
   audioVolumeController.addEventListener("input", setAudioVolume);
@@ -42,7 +45,7 @@ function createAudio() {
 }
 
 function setAudioVolume() {
-  audio.volume = audioVolume.value / 100;
+  video.volume = audioVolume.value / 100;
 }
 
 function setAudioGain() {
@@ -52,10 +55,12 @@ function setAudioGain() {
 /**
  * Gain node and a analyzer visual show on canvas.
  * enable only for local sound files; MUST be removed for Networksound
+ * 
+ * video and audio must be connected to the gain node
  */
 function connectAnalyzer() {
   // only local sound files, else complete silence (CORS)
-  audioSource = audioContext.createMediaElementSource(audio);
+  audioSource = audioContext.createMediaElementSource(video);
   audioSource.connect(analyserNodeOne).connect(gainNode).connect(audioContext.destination);
   audioSource.connect(analyserNodeTwo); // get the data copy for analyzer in foreground
 }
@@ -75,8 +80,6 @@ function runLocalSound() {
   document.getElementById('divFrameRight').style.display = "block";
   document.getElementById('divPlayListShow').style.display = "block";
   document.getElementById('playList').style.display = "block";
-  window.playListOne = new PlayList();
-  playListOne.create();
-  connectAnalyzer();
-  animationMain();
+  playList = new PlayList();
+  playList.create();
 }

@@ -7,8 +7,8 @@
 */
 // file selcetor
 const fileUpload = document.createElement("input");
-const btnFileUpload = document.createElement('button');  // CSS! location files btn; class input__submit
-const divFileUpload = document.createElement('div');  // CSS! location for label with checkbox;
+const btnFileUpload = document.createElement('button');
+const divFileUpload = document.createElement('div');
 const checkboxShuffle = document.createElement("input");
 const labelForShuffle = document.createElement("label");
 // nav bar
@@ -17,11 +17,15 @@ const topNav = document.createElement('section');
 const divLogo = document.createElement('div');  // also switch to current title
 const divRowCanvas = document.createElement('div');
 const rowCanvas = document.createElement('canvas');
+// video 
+const divVdo = document.createElement('div');
+const checkboxVdoScreen = document.createElement("input");
+const labelForVdoScreen = document.createElement("label");
 // play list display 
 const divFrameRightWait = document.createElement('div');  // put the element in a place we know if detached
 const divFrameRight = document.createElement('div');
 const divPlayListShow = document.createElement('div');
-const playList = document.createElement('div');
+const divPlayList = document.createElement('div');
 const divPlayListContainer = document.createElement('div');
 const divPlayListAnimation = document.createElement('div');
 const divHeader = document.createElement('div');
@@ -37,8 +41,7 @@ const customImg = document.createElement('div');  // source project network stre
 const customTxt = document.createElement('div');
 // audio panel
 const divPlayButtons = document.createElement("div");
-const nextBtn = document.createElement("span");
-const prevBtn = document.createElement("span");
+// next and prev btn createBtnNextPrev();
 const playBtn = document.createElement("span");
 const pauseBtn = document.createElement("span");
 const audioIcon = document.createElement("span");
@@ -88,11 +91,12 @@ function createPlayGround() {
   divTopNav.setAttribute("id" ,"divTopNav");
   topNav.className = "topNav";
   divLogo.setAttribute("id" ,"divLogo");
-  divLogo.innerHTML = "PlaylistBooster";
+  divLogo.innerText = "PlaylistBooster";
+  divLogo.style.width = "160px";
   divFrameRightWait.setAttribute("id" ,"divFrameRightWait");
   divFrameRight.setAttribute("id" ,"divFrameRight");
   divPlayListShow.setAttribute("id" ,"divPlayListShow");
-  playList.setAttribute("id" ,"playList");
+  divPlayList.setAttribute("id" ,"playList");
   divHeader.setAttribute("id" ,"divHeader");
   divRowCanvas.setAttribute("id" ,"divRowCanvas");
   rowCanvas.setAttribute("id" ,"rowCanvas");
@@ -100,7 +104,16 @@ function createPlayGround() {
   rowCanvas.addEventListener('click',(e)=>{
     toggleRowAnalyzer();
   });
-
+  // video 
+  divVdo.setAttribute("id" ,"divVdo");
+  checkboxVdoScreen.setAttribute("id" ,"checkboxVdoScreen");
+  checkboxVdoScreen.setAttribute("type" ,"checkbox");
+  checkboxVdoScreen.setAttribute("unchecked" ,"");
+  checkboxVdoScreen.className = "audioIcon";
+  labelForVdoScreen.setAttribute("id" ,"labelForVdoScreen");
+  labelForVdoScreen.setAttribute("for" ,"checkboxVdoScreen");
+  labelForVdoScreen.innerText = "Show Video";
+  labelForVdoScreen.className = "audioIcon";
   // play list display 
   checkboxShuffle.setAttribute("id" ,"checkboxShuffle");
   checkboxShuffle.setAttribute("type" ,"checkbox");
@@ -108,7 +121,7 @@ function createPlayGround() {
   checkboxShuffle.className = "audioIcon";
   labelForShuffle.setAttribute("id" ,"labelForShuffle");
   labelForShuffle.setAttribute("for" ,"checkboxShuffle");
-  labelForShuffle.innerHTML = "Shuffle";
+  labelForShuffle.innerText = "Shuffle";
   labelForShuffle.className = "audioIcon";
   titleDisplay.setAttribute("id" ,"titleDisplay");
   icy_name.setAttribute("id" ,"icy_name");   // misuse radio header display to show playlist info
@@ -123,12 +136,7 @@ function createPlayGround() {
 
   // audio panel
   divPlayButtons.setAttribute("id" ,"divPlayButtons");
-  nextBtn.setAttribute("id" ,"nextBtn");
-  nextBtn.className = "audioIcon";
-  nextBtn.innerHTML = "&nbsp; &#9197; &nbsp;";
-  prevBtn.setAttribute("id" ,"prevBtn");
-  prevBtn.className = "audioIcon";
-  prevBtn.innerHTML = "&nbsp; &#9198; &nbsp;";
+
   playBtn.setAttribute("id" ,"playBtn");
   playBtn.className = "audioIcon";
   playBtn.innerHTML = "&nbsp; &#9654; &nbsp;";
@@ -178,12 +186,14 @@ function createPlayGround() {
     toggleRunMenu();
   });
   divRunDetail.setAttribute("id" ,"divRunDetail");
-  divRunDetail.innerHTML = "<p>Supported sound file type depends on the Browser version.</p>"
-    + "Multi-select Button";
+  divRunDetail.innerHTML = "<p>Supported media file type depends on the Browser version.</p>"
+    + "Multi-select Button<br>"
+    ;
   menuRun.setAttribute("id" ,"menuRun");
   menuRun.style.zIndex = "1000";
   menuRun.innerHTML = "Run";
   menuRun.className = "toggleIcon";
+  menuRun.style.width = "100px";
   menuRun.addEventListener('click',(e)=>{
     toggleRunMenu();
   });
@@ -216,16 +226,22 @@ function arrangePlayGround() {
   divFileUpload.appendChild(fileUpload);
   labelForShuffle.appendChild(checkboxShuffle); 
   divFileUpload.appendChild(labelForShuffle);
-
+  labelForVdoScreen.appendChild(checkboxVdoScreen);
+  wrapRunMenu.appendChild(labelForVdoScreen);
+  // video
+  root.appendChild(divVdo);
+  divVdo.appendChild(video);
+  // option display title and web site url
   root.appendChild(divHeader); 
   divHeader.appendChild(icy_name); 
   divHeader.appendChild(document.createElement('br'));  
   divHeader.appendChild(request_icy_url);
   divHeader.appendChild(titleDisplay); 
+  // play list text
   root.appendChild(divFrameRight);
   root.appendChild(divFrameRightWait);
-  root.appendChild(playList);
-  playList.appendChild(divPlayListContainer);
+  root.appendChild(divPlayList);
+  divPlayList.appendChild(divPlayListContainer);
   divPlayListContainer.appendChild(divPlayListAnimation); 
   divPlayListContainer.appendChild(divPlayListShow);   
   divPlayListAnimation.appendChild(fileUpload); 
@@ -233,8 +249,6 @@ function arrangePlayGround() {
   root.appendChild(divPlayButtons);
   divPlayButtons.appendChild(playBtn);
   divPlayButtons.appendChild(pauseBtn);
-  divPlayButtons.appendChild(prevBtn);
-  divPlayButtons.appendChild(nextBtn);
   divPlayButtons.appendChild(audioIcon);
   // network stream descriptions
   root.appendChild(customImg);
@@ -261,4 +275,23 @@ function fillAboutMenu() {
     + "<p>'aac-repair' (aacp) <a href=https://www.npmjs.com/package/aac-repair>https://www.npmjs.com/package/aac-repair</a></p>"
     + "<p>aac-repair can fix files recorded from streams. Those files can lead to playlist stuck.</p>"
     ;
+}
+
+/**
+ * Reused at every instance creation of Playlist class.
+ * Get event listener for title skipping.
+ */
+function createBtnNextPrev() {
+  const nextBtn = document.createElement("span");
+  const prevBtn = document.createElement("span");
+  nextBtn.setAttribute("id" ,"nextBtn");
+  nextBtn.className = "audioIcon";
+  nextBtn.innerHTML = "&nbsp; &#9197; &nbsp;";
+  prevBtn.setAttribute("id" ,"prevBtn");
+  prevBtn.className = "audioIcon";
+  prevBtn.innerHTML = "&nbsp; &#9198; &nbsp;";
+  // insert before the audio icon
+  let parent = document.getElementById("pauseBtn");
+  parent.parentNode.insertBefore(nextBtn, parent.nextSibling);
+  parent.parentNode.insertBefore(prevBtn, parent.nextSibling);
 }
