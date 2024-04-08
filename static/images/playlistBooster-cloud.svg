@@ -1,26 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>playlist booster</title>
-    <link rel='shortcut icon' type='image/x-icon' href='/static/images/default_icon.svg' />
-    <link href="static/css/style.css" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script src="static/js/index.js"></script>
-    <script src="static/js/constants.js"></script>
-    <script src="static/js/playGroundSetup.js"></script>
-    <script src="static/js/playlist.js"></script>
-    <script src="static/js/utils.js"></script>
-    <script src="static/js/analyzer.js"></script>
-    <script src="static/js/animation.js"></script>
-  </body>
-
-  <symbol> <!-- inline SVG, path (d) can be later animated, have full access to content -->
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    <svg
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
    width="100"
    version="1.1"
    id="playlistBooster-svg-cloud"
@@ -71,7 +50,4 @@
      id="path9"
      style="opacity:1;fill:#ff6600;fill-rule:evenodd;stroke-width:0.113284;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
      d="m -45.43358,52.418283 a 2.138998,1.2527189 0 0 1 -2.138998,1.252718 2.138998,1.2527189 0 0 1 -2.138998,-1.252718 2.138998,1.2527189 0 0 1 2.138998,-1.25272 2.138998,1.2527189 0 0 1 2.138998,1.25272 z" /></g>
-    </svg>
-  </symbol>
-
-</html>
+	   </svg>

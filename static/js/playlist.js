@@ -12,21 +12,12 @@ class PlayList {
 
   constructor() {
     this.divLogo = document.getElementById('divLogo');  // addon extra
-    this.detachCustomImg = document.getElementById('customImg');
-    this.detachCustomTxt = document.getElementById('customTxt');
     this.detachWait = document.getElementById('divFrameRightWait');
     this.divFrameRight = document.getElementById('divFrameRight');
     this.divPlayListShow = document.getElementById('divPlayListShow');
     this.divPlayList = document.getElementById('playList');
     this.checkboxShuffle = document.getElementById("checkboxShuffle");
     this.checkboxVdoScreen = document.getElementById("checkboxVdoScreen");
-    this.titleDisplay = document.getElementById('titleDisplay');
-    this.icyName = document.getElementById('icy_name');                 // misuse radio header display to show playlist info
-    this.request_icy_url = document.getElementById('request_icy_url');  // display track count
-    this.request_suffix = document.getElementById('request_suffix');    // clean display from former radio header info
-    this.request_icy_br = document.getElementById('request_icy_br');    // can display file info, if flask would read file header, length
-    this.request_time = document.getElementById('request_time');        // like GhettoRecorder listenWhitelist
-
     this.nextBtn = undefined;  // Removed at every instance creation.
     this.prevBtn = undefined;
     this.playBtn = document.getElementById("playBtn");
@@ -39,25 +30,26 @@ class PlayList {
     this.fadeIn = [{ opacity: 0 }, { opacity: 1 }]; // css styling show, key frame thingy args
     this.faderPulseTiming = { duration: 1500, iterations: 5, };
   }
-  reset() {
-    this.playListMember = [];
+  resetEnv() {
+    // instance
+    this.playListMember = [];  // Get the file objects here, not only the title.
     this.trackNumber = 0;
     this.trackCount = 0;
+    // DOM
     video.src = "";
-    // Get rid of evt listener. Remove by fun is a mess. Holds ref to prev. playListMember array.
     try {
-      nextBtn.remove();
+      nextBtn.remove();  // Get rid of evt listener on btn. 
       prevBtn.remove();
-    } catch (error) {// first run
-    }
+    } catch (error) {/* first call */ }
     createBtnNextPrev();
     this.nextBtn = document.getElementById("nextBtn");
     this.prevBtn = document.getElementById("prevBtn");
+    // setIntervall killer
     clearInterval(refreshIntervalId);
   }
   create() {
     // Entry point.
-    this.reset();
+    this.resetEnv();
     this.createHtmlDisplay();
     this.attachAnimation();
     this.shufflePlayList();
@@ -69,22 +61,13 @@ class PlayList {
     refreshIntervalId = setInterval(() => { this.mediaTimeShow() }, 1000);
   }
   playLocalMedia() {
-    let self = this;  // bind() thingy
-    let showText = "👉️ " + self.playListMember[self.trackNumber].name;
-    // created a txt createHtmlDisplay(); display parent is "divPlayListShow" div;
-    // each <track name> is shown on its own child div, this div has the div.id attribute set as <track name> to be unique
-    let curTitleName = document.getElementById(self.playListMember[self.trackNumber].name);
-    curTitleName.innerText = showText;
-    curTitleName.style.background = "linear-gradient(to left, #f46b45, #eea849)";
-    curTitleName.style.color = "black";
-    curTitleName.style.fontSize = "100%";
-    curTitleName.style.fontWeight = "600";
+    let self = this;
+    timeRuler.value = 0;
+    this.prettifyDisplayRow();
 
     video.src = URL.createObjectURL(self.playListMember[self.trackNumber]);
     video.onended = () => {
-      // get rid of the hand
-      curTitleName.innerText = self.playListMember[self.trackNumber].name
-      //change color of played filename
+      //change color of played filename before removal
       self.markPlayedFile(self.playListMember[self.trackNumber].name);
       self.trackNumber++;
       if (self.trackNumber < self.playListMember.length) {
@@ -97,6 +80,20 @@ class PlayList {
       console.log("playLocalMedia error->", error);
     }
   }
+  prettifyDisplayRow() {
+    let self = this;  // bind() thingy
+    let showText = self.playListMember[self.trackNumber].name;
+    // each <track name> is shown on its own child div, this div has the div.id attribute set as <track name> to be unique
+    let curTitleName = document.getElementById(self.playListMember[self.trackNumber].name);
+    curTitleName.innerText = showText;
+    curTitleName.style.background = "linear-gradient(to left, #f46b45, #eea849)";  // hex!
+    curTitleName.style.color = "lightyellow";
+    curTitleName.style.padding = "4px";
+    curTitleName.style.fontSize = "130%";
+    curTitleName.style.fontWeight = "600";
+    curTitleName.style.fontStyle = "oblique";
+    curTitleName.style.textShadow = "1px 1px 2px tomato";
+  }
   mediaTimeShow() {
     let self = this;
     try {
@@ -106,34 +103,42 @@ class PlayList {
       let hours = Math.floor(duration / 3600);
       let minutes = Math.floor(seconds / 60);
       let extraSeconds = seconds % 60;
-      let msg = self.trackCount + " tracks. " + hours + ":" + minutes + ":" + extraSeconds + " ";
+      let msg = self.trackCount + " tracks :: " + hours + ":" + minutes + ":" + extraSeconds + " ";
       self.divLogo.innerText = msg;
     } catch (error) {
-      self.divLogo.innerText = self.trackCount + " tracks. ";
+      self.divLogo.innerText = self.trackCount + " tracks";
     }
   }
   removeElementFromParent(elementId) {
-    /* Catch error if div is in state of being deleted, means div with desired name exists yet.
-       We use a dot in front in next, prev btn listener to be unique.
-    */
     try {
       elementId.parentNode.removeChild(elementId);
     } catch (error) { }
   }
   markPlayedFile(fName) {
     /* Mark played files and del div from list to generate some action. */
-    let self = this;
     let playedFile = document.getElementById(fName);
     try {
       playedFile.style.color = "red";
     } catch (error) { return; }
-    playedFile.animate(this.fadeIn, this.faderPulseTiming);
-    setTimeout(function () {
-      self.removeElementFromParent(playedFile);
-    }, 10000);
+
+    let playedRemove = async () => {
+      /* 
+      * Simon says: 
+      * "Remember that element.animate() does < not > return a Promise.
+      * It returns an Animation object with a finished property that is a Promise."
+      */
+      let aObj = playedFile.animate(this.fadeIn, this.faderPulseTiming);
+      return aObj.finished;
+    };
+    playedRemove()
+      .then((finished) => { if (finished) playedFile.remove() })
+      .catch((error) => {
+        console.error(error);
+        playedFile.remove();
+      });
   }
   shufflePlayList() {
-    /* Clone the upload list. Can not re-arrange the original. */
+    /* Clone (convert simple array) the upload object array. Can not re-arrange the original. */
     // shuffle
     if (this.checkboxShuffle.checked) {
       this.playListMember = this.shuffleArray([...fileUpload.files]);
@@ -163,7 +168,6 @@ class PlayList {
     /* Collect all the file references from upload mask and create a list of the file names.
        Each file name gets its own div, so we can later reduce, remove the played list members.
     */
-    activeRadioName = "Playlist";  // One analyzer can show a name.
     let parent = this.divPlayListShow;
     let id = "";
     let innerText = "";
@@ -176,14 +180,21 @@ class PlayList {
     }
   }
   appendDiv(opt) {
-    /* Reusable fun to stack div and use the stack as a list.  */
+    /* Stack div and use it as a list. */
     let div = document.createElement('div');
     div.id = opt.id;  // id of new child
     div.classList.add(opt.elemClass);
     div.innerText = opt.innerText;
     div.style.background = "#FED8B1";
+    div.style.color = "black";
+    div.style.padding = "4px";
+    div.style.fontSize = "90%";
     div.style.fontWeight = "500";
-    div.style.padding = "2px";
+    div.style.fontStyle = "normal";
+    div.style.textShadow = "0px 0px 0px black";
+    div.style.fontFamily = "Roboto, Helvetica, Arial, sans-serif";
+    div.style.boxShadow = "6px 6px 12px rgba(0,0,0,0.5)";
+
     opt.parent.appendChild(div);  // parent is full path document.getElem...
   }
   removeDiv(opt) {
@@ -196,13 +207,9 @@ class PlayList {
     let node = this.divPlayList;
     // put our custom divs where we find them later
     this.removeDiv({ id: parent });
-    this.detachWait.appendChild(this.detachCustomImg);  // custom div do it with the playlist
-    this.detachWait.appendChild(this.detachCustomTxt);
     // put the playlist in the right container
     parent.appendChild(node);  // detach the node from origin and add to a div destination container in DOM
     this.detachWait.style.display = "none";
-    this.detachCustomImg.style.display = "none";
-    this.detachCustomTxt.style.display = "none";
   }
   drawButtons() {
     // not needed for network streams
@@ -261,7 +268,7 @@ class PlayList {
       }
     };
 
-    self.nextBtn.addEventListener("click", this.evtNextBtn);
-    self.prevBtn.addEventListener("click", this.evtPrevBtn);
+    self.nextBtn.addEventListener("click", this.evtNextBtn, false);
+    self.prevBtn.addEventListener("click", this.evtPrevBtn, false);
   }
 }

@@ -9,7 +9,7 @@ function openTab(){
       active:true
     }).then(() => {
       browser.tabs.executeScript({
-        code: `console.log('location:', window.location.href);`,
+        code: `console.log('Add-on:', 'PlaylistBooster');`,
       });
     });
 }
