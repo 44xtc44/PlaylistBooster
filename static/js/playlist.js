@@ -5,7 +5,6 @@
  * Plays local sound files.
  * Can move through the playlist, back and forth.
  */
-const cl = console.log;
 var refreshIntervalId;  // setinterval killer
 
 class PlayList {
@@ -146,7 +145,6 @@ class PlayList {
       });
   }
   shufflePlayList() {
-    /* Clone (convert simple array) the upload object array. Can not re-arrange the original. */
     // shuffle
     if (this.checkboxShuffle.checked) {
       this.playListMember = this.shuffleArray([...fileUpload.files]);
@@ -166,6 +164,7 @@ class PlayList {
     return array;
   }
   suppressVideoDisplay() {
+    // there is an additional event listener on the checkbox
     if (this.checkboxVdoScreen.checked) {
       video.style.display = "block";
     } else {
