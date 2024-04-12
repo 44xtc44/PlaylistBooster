@@ -1,11 +1,5 @@
 // index.js
 "use strict";
-// https://extensionworkshop.com/documentation/develop/build-a-secure-extension/
-// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Build_a_cross_browser_extension  manifest v3
-// https://www-archive.mozilla.org/projects/security/components/reviewguide.html
-
-// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/user_interface
-// https://extensionworkshop.com/documentation/develop/build-a-secure-extension/
 /**
 * @author René Horn
 * @author www.github.com/44xtc44
@@ -19,6 +13,11 @@ const video = document.createElement("video");
 const timeRuler = document.createElement("input");  // slider
 const audioVolume = document.createElement("input");  // slider
 const audioGain = document.createElement("input");  // slider show only for local sound, network is blocked by CORS
+const plbr_0_5 = document.createElement("input");  // checkbox playbackRate
+const plbr_1_0 = document.createElement("input");
+const plbr_1_5 = document.createElement("input");  
+const plbr_2_0 = document.createElement("input");
+const checkboxVdoScreen = document.createElement("input");
 
 const audioContext = new AudioContext();
 var audioSource = null;
@@ -32,10 +31,12 @@ var timeSeekCount = 0;  // save system load
 
 window.addEventListener('load', () => {
   createAudio();
+  createPlaybackRadios();
   createPlayGround();
   arrangePlayGround();
   connectAnalyzer();
   animationMain();
+  checkboxVdoScreen.addEventListener("input", setCheckboxVdoScreen);
 });
 
 function createAudio() {
@@ -60,12 +61,35 @@ function createAudio() {
   audioGain.setAttribute("min", "1");
   audioGain.setAttribute("max", "5");
   audioGain.setAttribute("step", "0.1");
+
   video.addEventListener("timeupdate", getTimeSetRuler);
   timeRuler.addEventListener("input", setTimeRuler);
   audioVolume.addEventListener("input", setAudioVolume);
   audioGain.addEventListener("input", setAudioGain);
 }
+function createPlaybackRadios() {
+  plbr_0_5.setAttribute("name", "plbr");
+  plbr_0_5.id = "plbr_0_5";
+  plbr_0_5.type = "radio";
 
+  plbr_1_0.setAttribute("name", "plbr");
+  plbr_1_0.id = "plbr_1_0";
+  plbr_1_0.type = "radio";
+  plbr_1_0.setAttribute("checked", "");  // checked
+
+  plbr_1_5.setAttribute("name", "plbr");
+  plbr_1_5.id = "plbr_1_5";
+  plbr_1_5.type = "radio";
+
+  plbr_2_0.setAttribute("name", "plbr");
+  plbr_2_0.id = "plbr_2_0";
+  plbr_2_0.type = "radio";
+
+  plbr_0_5.addEventListener("input", setPlavbackRateHalf);
+  plbr_1_0.addEventListener("input", setPlavbackRateOne);
+  plbr_1_5.addEventListener("input", setPlavbackRateOneHalf);
+  plbr_2_0.addEventListener("input", setPlavbackRateTwo);
+}
 function getTimeSetRuler() {
   // 'timeupdate' system event fires up to system load, slow pace
   timeSeekCount += 1;
@@ -84,7 +108,29 @@ function setAudioVolume() {
 function setAudioGain() {
   gainNode.gain.value = audioGain.value;
 }
-
+function setPlavbackRateHalf() {
+  plbr_0_5.checked = true;
+  video.playbackRate = 0.5;
+}
+function setPlavbackRateOne() {
+  plbr_1_0.checked = true;
+  video.playbackRate = 1.0;
+}
+function setPlavbackRateOneHalf() {
+  plbr_1_5.checked = true;
+  video.playbackRate = 1.5;
+}
+function setPlavbackRateTwo() {
+  plbr_2_0.checked = true;
+  video.playbackRate = 2.0;
+}
+function setCheckboxVdoScreen() {
+  if (checkboxVdoScreen.checked) {
+    video.style.display = "block";
+  } else {
+    video.style.display = "none";
+  }
+}
 /**
  * Gain node and a analyzer visual show on canvas.
  * enable only for local sound files; MUST be removed for Networksound (if!)

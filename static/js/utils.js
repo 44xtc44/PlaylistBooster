@@ -19,9 +19,7 @@ function toggleAudioControls() {
     isShown = "none";
     audioControlShow = 1;
   }
-  setTimeout(function () {
-    console.style.display = isShown;
-  }, 50);
+  console.style.display = isShown;
 }
 
 /**
@@ -38,16 +36,14 @@ function toggleAboutMenu() {
     isShown = "none";
     aboutMenuShow = 1;
   }
-  setTimeout(function () {
-    console.style.display = isShown;
-  }, 50);
+  console.style.display = isShown;
 }
 
 /**
 * Show or hide Run menu.
 */
 function toggleRunMenu() {
-  let console = document.getElementById("wrapRunMenu");
+  let console = document.getElementById("divRunMenu");
   let isShown = "";
 
   if (runMenuShow === 1) {
@@ -57,9 +53,7 @@ function toggleRunMenu() {
     isShown = "none";
     runMenuShow = 1;
   }
-  setTimeout(function () {
-    console.style.display = isShown;
-  }, 50);
+  console.style.display = isShown;
 }
 
 /**

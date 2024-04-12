@@ -18,6 +18,8 @@ class PlayList {
     this.divPlayList = document.getElementById('playList');
     this.checkboxShuffle = document.getElementById("checkboxShuffle");
     this.checkboxVdoScreen = document.getElementById("checkboxVdoScreen");
+    this.checkboxPlaybackRateOne = document.getElementById("plbr_1_0");
+
     this.nextBtn = undefined;  // Removed at every instance creation.
     this.prevBtn = undefined;
     this.playBtn = document.getElementById("playBtn");
@@ -37,6 +39,10 @@ class PlayList {
     this.trackCount = 0;
     // DOM
     video.src = "";
+    // this.checkboxPlaybackRateOne.click();
+    divMain.style.display = "none";  // help info
+    rowCanvas.style.display = "block";  // analyzer
+    rowCanvasRear.style.display = "none";  // logo
     try {
       nextBtn.remove();  // Get rid of evt listener on btn. 
       prevBtn.remove();
@@ -63,6 +69,7 @@ class PlayList {
   playLocalMedia() {
     let self = this;
     timeRuler.value = 0;
+    self.checkboxPlaybackRateOne.checked = true; 
     this.prettifyDisplayRow();
 
     video.src = URL.createObjectURL(self.playListMember[self.trackNumber]);
@@ -103,6 +110,7 @@ class PlayList {
       let hours = Math.floor(duration / 3600);
       let minutes = Math.floor(seconds / 60);
       let extraSeconds = seconds % 60;
+      if(isNaN(hours) || isNaN(minutes) || isNaN(extraSeconds)) throw new Error("Video element can not read time.");
       let msg = self.trackCount + " tracks :: " + hours + ":" + minutes + ":" + extraSeconds + " ";
       self.divLogo.innerText = msg;
     } catch (error) {
@@ -121,9 +129,9 @@ class PlayList {
       playedFile.style.color = "red";
     } catch (error) { return; }
 
-    let playedRemove = async () => {
+    let playedRemove = () => {
       /* 
-      * Simon says: 
+      * MDN hint: 
       * "Remember that element.animate() does < not > return a Promise.
       * It returns an Animation object with a finished property that is a Promise."
       */
@@ -224,10 +232,10 @@ class PlayList {
     let parent = self.divPlayListShow;
     let id;
     let innerText;
-    self.playBtn.addEventListener("click", (e) => {
+    self.playBtn.addEventListener("click", () => {
       video.play();
     });
-    self.pauseBtn.addEventListener("click", (e) => {
+    self.pauseBtn.addEventListener("click", () => {
       video.pause();
     });
 
