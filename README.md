@@ -10,21 +10,31 @@ This repository shows the source code of a browser add-on.
 
 # HowTo
 
-Click "Run" in the menu bar.
-Enable the shuffle selector checkbox and press the "files" button to select files from a folder.
+Start screen shows instructions
 
 <table>
   <tbody>
     <tr>
       <td>
-        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/localFolderGain.png" alt="local folder with open gain slider" height="500"/> 
+        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/start.png" alt="start screen" height="618"/> 
       </td>
     </tr>
      <tr>
       <td>
-        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/fileSelectWindow.png" alt="file selector window" height="500"/> 
+        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/options.png" alt="show options" height="618"/> 
       </td>
     </tr>
+     <tr>
+      <td>
+        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/sound.png" alt="sound files active" height="618"/> 
+      </td>
+    </tr>
+     <tr>
+      <td>
+        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/video.png" alt="video files active" height="618"/> 
+      </td>
+    </tr>
+
   </tbody>
 </table>
 

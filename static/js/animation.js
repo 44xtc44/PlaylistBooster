@@ -1,13 +1,17 @@
 // animation.js
 "use strict";
 
-window.frameCount = 0;  // use with modulo to skip animation frames to decrease load
+var animationFrameCount = 0;
 
+/**
+ * All animations will get called here.
+ * Runs on Browser refresh rate.
+ */
 function animationMain() {
-    // switch index to call next fun from list
-    let idx = switchAnalyzer.analyzerListIdx;
-    switchAnalyzer.analyzerList[idx]();
-    
-    /* requestAnimationFrame; only one in an app. */
-    frameCount = requestAnimationFrame(animationMain);
-  }
+
+  let idx = switchAnalyzer.analyzerListIdx;
+  switchAnalyzer.analyzerList[idx]();
+
+  /* requestAnimationFrame; only one in an app. */
+  animationFrameCount = requestAnimationFrame(animationMain);
+}
