@@ -11,34 +11,33 @@ This repository shows the source code of a browser add-on.
 
 HowTo
 -----
-Click "Run" in the menu bar.
-Enable the shuffle selector checkbox and press the "files" button to select files from a folder.
+Start screen shows instructions
 
 .. image:: ./start.png
             :alt: start screen
             :class: with-border
-            :height: 600
+            :height: 618
 
 -
 
 .. image:: ./options.png
             :alt: show options
             :class: with-border
-            :height: 600
+            :height: 618
 
 -
 
 .. image:: ./sound.png
             :alt: sound files active
             :class: with-border
-            :height: 600
+            :height: 618
 
 -
 
 .. image:: ./video.png
             :alt: video files active
             :class: with-border
-            :height: 600
+            :height: 618
 
 
 Gain - preamp
