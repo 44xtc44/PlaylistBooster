@@ -19,6 +19,10 @@ const plbr_1_5 = document.createElement("input");
 const plbr_2_0 = document.createElement("input");
 const checkboxVdoScreen = document.createElement("input");
 
+window.showAudioControls = null;
+window.showWrapAboutMenu = null;
+window.showDivRunMenu = null;
+
 const audioContext = new AudioContext();
 var audioSource = null;
 var videoSource = null;
@@ -37,6 +41,10 @@ window.addEventListener('load', () => {
   connectAnalyzer();
   animationMain();
   checkboxVdoScreen.addEventListener("input", setCheckboxVdoScreen);
+
+  showAudioControls = new IsShown("audioControls");
+  showWrapAboutMenu = new IsShown("wrapAboutMenu");
+  showDivRunMenu = new IsShown("divRunMenu");
 });
 
 function createAudio() {
@@ -134,14 +142,12 @@ function setCheckboxVdoScreen() {
 /**
  * Gain node and a analyzer visual show on canvas.
  * enable only for local sound files; MUST be removed for Networksound (if!)
- * 
- * video and audio must be connected to the gain node
  */
 function connectAnalyzer() {
   // only local sound files, else complete silence (CORS)
   audioSource = audioContext.createMediaElementSource(video);
-  audioSource.connect(analyserNodeOne).connect(gainNode).connect(audioContext.destination);
-  audioSource.connect(analyserNodeTwo); // get the data copy for analyzer in foreground
+  audioSource.connect(analyserNodeOne).connect(gainNode).connect(audioContext.destination);  // audio + extra analyzer
+  audioSource.connect(analyserNodeTwo); // data copy for analyzer in fake menu bar
 }
 function disconnectAnalyzer() {
   audioSource = null;

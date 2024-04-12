@@ -206,7 +206,7 @@ function createPlayGround() {
   audioIcon.classList.add("fontSize200");
   audioIcon.innerHTML = "&#128266;";
   audioIcon.addEventListener('click', (e) => {
-    toggleAudioControls();
+    showAudioControls.toggle();
   });
   spanFolderImgAudio.classList.add("spanInRow");
   folderImgAudio.setAttribute("width", "40px");
@@ -214,7 +214,7 @@ function createPlayGround() {
   folderImgAudio.style.verticalAlign = "bottom";
   folderImgAudio.classList.add("cursorP");
   folderImgAudio.addEventListener('click', (e) => {
-    toggleRunMenu();
+    showDivRunMenu.toggle();
   });
   // audio volume gain time-seek
   timeRuler.classList.add("cursorP");
@@ -263,7 +263,7 @@ function createPlayGround() {
   menuAbout.innerText = "About";
   menuAbout.classList.add("cursorP");
   menuAbout.addEventListener('click', () => {
-    toggleAboutMenu();
+    showWrapAboutMenu.toggle();
   });
   fillAboutMenu();
   // run menu
