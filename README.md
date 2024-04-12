@@ -17,17 +17,22 @@ Enable the shuffle selector checkbox and press the "files" button to select file
   <tbody>
     <tr>
       <td>
-        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/localFolderGain.png" alt="local folder with open gain slider" height="525"/> 
+        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/start.png" alt="start screen" height="600"/> 
       </td>
     </tr>
      <tr>
       <td>
-        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/fileSelectWindow.png" alt="file selector window" height="525"/> 
+        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/options.png" alt="show options" height="600"/> 
       </td>
     </tr>
      <tr>
       <td>
-        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/mixVideoAacpWindow.png" alt="folder mixed video and aacp audio" height="635"/> 
+        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/sound.png" alt="sound files active" height="600"/> 
+      </td>
+    </tr>
+     <tr>
+      <td>
+        <img src="https://github.com/44xtc44/EisenRadio/raw/dev/.github/video.png" alt="video files active" height="600"/> 
       </td>
     </tr>
 

@@ -14,24 +14,31 @@ HowTo
 Click "Run" in the menu bar.
 Enable the shuffle selector checkbox and press the "files" button to select files from a folder.
 
-.. image:: ./localFolderGain.png
-            :alt: local folder with open gain slider
+.. image:: ./start.png
+            :alt: start screen
             :class: with-border
-            :height: 525
+            :height: 600
 
 -
 
-.. image:: ./fileSelectWindow.png
-            :alt: file selector window
+.. image:: ./options.png
+            :alt: show options
             :class: with-border
-            :height: 525
+            :height: 600
 
 -
 
-.. image:: ./mixVideoAacpWindow.png
-            :alt: folder mixed video and aacp audio
+.. image:: ./sound.png
+            :alt: sound files active
             :class: with-border
-            :height: 625
+            :height: 600
+
+-
+
+.. image:: ./video.png
+            :alt: video files active
+            :class: with-border
+            :height: 600
 
 
 Gain - preamp
