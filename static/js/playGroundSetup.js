@@ -31,7 +31,6 @@ imgMainTwoFiles.src = "/static/images/playlistBooster-twoFiles.svg";
 const imgMainFolder = document.createElement("img");
 imgMainFolder.src = "/static/images/playlistBooster-folder.svg";
 const imgMainAudioSpeaker  = document.createElement('span');
-
 // video 
 const divVdo = document.createElement('div');
 const labelForVdoScreen = document.createElement("label");
@@ -42,9 +41,12 @@ const divPlayListAnimation = document.createElement('div');
 // audio panel
 const divAudioPanel = document.createElement("div");
 const divPlayButtons = document.createElement("div");
-const playBtn = document.createElement("span");
-const pauseBtn = document.createElement("span");
-const audioIcon = document.createElement("span");
+const imgPlayBtn = document.createElement("img");
+imgPlayBtn.src = "/static/images/playlistBooster-btn-play.svg";
+const imgStopBtn = document.createElement("img");
+imgStopBtn.src = "/static/images/playlistBooster-btn-stop.svg";
+const audioIcon = document.createElement("img");
+audioIcon.src = "/static/images/playlistBooster-btn-speaker.svg";
 const folderImgAudio = document.createElement("img");
 folderImgAudio.src = "/static/images/playlistBooster-folder.svg";
 const spanFolderImgAudio = document.createElement("span");
@@ -65,7 +67,8 @@ const divPlabackRate = document.createElement('div');
 const divAudioLabelWrap = document.createElement('div');
 // about and help menu
 const wrapAboutMenu = document.createElement('div');
-const menuAbout = document.createElement('span');
+const menuAbout = document.createElement('img');
+menuAbout.src = "/static/images/playlistBooster-copyright.svg";
 const divMenuAbout = document.createElement('div');
 // run menu
 const twoFilesImgRun = document.createElement("img");
@@ -123,16 +126,14 @@ function createPlayGround() {
   divMainImage_03_wrap.classList.add("mainImageFormat"); 
   divMainText_03_wrap.classList.add("mainDisplay");
   divMainText_03_wrap.classList.add("mainTextFormat");
-  divMainText_01_wrap.innerHTML = "<p>Show the file selector.<br>Playlist is an oldschool folder.</p>";
-  divMainText_02_wrap.innerHTML = "<p>Multi-file-select with 'file-upload' mask. (local Add-on)</p>"
+  divMainText_01_wrap.innerHTML = "<p>Open the file selector</p>";
+  divMainText_02_wrap.innerHTML = "<p>Multi-file-select with 'file-upload' mask.</p>"
     + "<ul>"
-    + "<li>Play sound of mixed files, e.g., .mp4, mp3 </li>"
-    + "<li>Video screen checkbox default disabled</li>"
-    + "<li>Shuffle can be disabled in the checkbox</li>"
-    + "<li>&#9197; &nbsp; lists remaining files in shuffled order</li>"
+    + "<li>Play mixed media files, e.g., .mp4, mp3, aac </li>"
+    + "<li>Video screen checkbox</li>"
+    + "<li>Shuffle</li>"
     + "</ul>";
   divMainText_03_wrap.innerHTML = "<ul>"
-    + "<li>Volume</li>"
     + "<li>Gain</li>"
     + "<li>Time-seek</li>"
     + "<li>Playback rate</li>"
@@ -156,23 +157,30 @@ function createPlayGround() {
   // audio panel
   divAudioPanel.setAttribute("id", "divAudioPanel");
   divPlayButtons.setAttribute("id", "divPlayButtons");
-  playBtn.setAttribute("id", "playBtn");
-  playBtn.className = "playBtn";
-  playBtn.classList.add("spanInRow");
-  playBtn.classList.add("cursorP");
-  playBtn.classList.add("fontSize200");
-  playBtn.innerHTML = "&nbsp; &#9654; &nbsp;";
-  pauseBtn.setAttribute("id", "pauseBtn");
-  pauseBtn.className = "pauseBtn";
-  pauseBtn.classList.add("spanInRow");
-  pauseBtn.classList.add("cursorP");
-  pauseBtn.classList.add("fontSize200");
-  pauseBtn.innerHTML = "&nbsp; &#9208; &nbsp;";
+  imgPlayBtn.setAttribute("id", "imgPlayBtn");
+  imgPlayBtn.setAttribute("width", "40px");
+  imgPlayBtn.setAttribute("heigth", "40px");
+  imgPlayBtn.style.padding = "5px";
+  imgPlayBtn.style.marginBottom = "1px";
+  imgPlayBtn.style.verticalAlign = "bottom";
+  imgPlayBtn.style.cursor = "pointer";
+  imgPlayBtn.classList.add("imgTransform");
+  imgStopBtn.setAttribute("id", "imgStopBtn");
+  imgStopBtn.setAttribute("width", "40px");
+  imgStopBtn.setAttribute("heigth", "40px");
+  imgStopBtn.style.padding = "5px";
+  imgStopBtn.style.marginBottom = "1px";
+  imgStopBtn.style.verticalAlign = "bottom";
+  imgStopBtn.style.cursor = "pointer";
+  imgStopBtn.classList.add("imgTransform");
   audioIcon.setAttribute("id", "audioIcon");
-  audioIcon.classList.add("spanInRow");
-  audioIcon.classList.add("cursorP");
-  audioIcon.classList.add("fontSize200");
-  audioIcon.innerHTML = "&#128266;";
+  audioIcon.setAttribute("width", "44px");
+  audioIcon.setAttribute("heigth", "44px");
+  audioIcon.style.padding = "5px";
+  audioIcon.style.marginLeft = "25px";
+  audioIcon.style.verticalAlign = "bottom";
+  audioIcon.style.cursor = "pointer";
+  audioIcon.classList.add("imgTransform");
   audioIcon.addEventListener('click', () => {
     showAudioControls.toggle();
   });
@@ -181,6 +189,7 @@ function createPlayGround() {
   folderImgAudio.setAttribute("heigth", "40px");
   folderImgAudio.style.verticalAlign = "bottom";
   folderImgAudio.classList.add("cursorP");
+  folderImgAudio.classList.add("imgTransform");
   folderImgAudio.addEventListener('click', () => {
     showDivRunMenu.toggle();
   });
@@ -222,14 +231,13 @@ function createPlayGround() {
   wrapAboutMenu.setAttribute("id", "wrapAboutMenu");
   divMenuAbout.setAttribute("id", "divMenuAbout");
   divMenuAbout.style.float = "right";
-  divMenuAbout.style.fontSize = "120%";
-  divMenuAbout.style.fontWeight = "600";
-  divMenuAbout.style.marginTop = "10px";
-  divMenuAbout.style.marginRight = "10px";
-
   menuAbout.setAttribute("id", "menuAbout");
-  menuAbout.innerText = "About";
-  menuAbout.classList.add("cursorP");
+  menuAbout.setAttribute("width", "40px");
+  menuAbout.setAttribute("heigth", "40px");
+  menuAbout.style.padding = "5px";
+  menuAbout.style.verticalAlign = "bottom";
+  menuAbout.style.cursor = "pointer";
+  menuAbout.classList.add("imgTransform");
   menuAbout.addEventListener('click', () => {
     showWrapAboutMenu.toggle();
   });
@@ -240,6 +248,7 @@ function createPlayGround() {
   twoFilesImgRun.setAttribute("heigth", "40px");
   twoFilesImgRun.style.verticalAlign = "bottom";
   twoFilesImgRun.classList.add("cursorP");
+  twoFilesImgRun.classList.add("imgTransform");
   twoFilesImgRun.addEventListener('click', () => {
     fileUpload.click();
   });
@@ -302,8 +311,9 @@ function arrangePlayGround() {
   divAudioPanel.appendChild(divRunMenu);
   divAudioPanel.appendChild(audioControls);
   divAudioPanel.appendChild(wrapAboutMenu);
-  divPlayButtons.appendChild(playBtn);
-  divPlayButtons.appendChild(pauseBtn);
+  divPlayButtons.appendChild(imgPlayBtn);
+  divPlayButtons.appendChild(imgStopBtn);
+
   divPlayButtons.appendChild(audioIcon);
   spanFolderImgAudio.appendChild(folderImgAudio);
   divPlayButtons.appendChild(spanFolderImgAudio);
@@ -345,20 +355,31 @@ function fillAboutMenu() {
  * Get event listener for title skipping.
  */
 function createBtnNextPrev() {
-  const nextBtn = document.createElement("span");
-  const prevBtn = document.createElement("span");
-  nextBtn.setAttribute("id", "nextBtn");
-  nextBtn.classList.add("spanInRow");
-  nextBtn.classList.add("cursorP");
-  nextBtn.classList.add("fontSize200");
-  nextBtn.innerHTML = "&nbsp; &#9197; &nbsp;";
+  const nextBtn = document.createElement("img");
+  nextBtn.src = "/static/images/playlistBooster-btn-playForward.svg";
+  const prevBtn = document.createElement("img");
+  prevBtn.src = "/static/images/playlistBooster-btn-playBackward.svg";
+
   prevBtn.setAttribute("id", "prevBtn");
-  prevBtn.classList.add("spanInRow");
-  prevBtn.classList.add("cursorP");
-  prevBtn.classList.add("fontSize200");
-  prevBtn.innerHTML = "&nbsp; &#9198; &nbsp;";
-  // insert before the audio icon
-  let parent = document.getElementById("pauseBtn");
+  prevBtn.setAttribute("width", "60px");
+  prevBtn.setAttribute("heigth", "60px");
+  prevBtn.style.padding = "5px";
+  prevBtn.style.marginBottom = "3px";
+  prevBtn.style.verticalAlign = "bottom";
+  prevBtn.style.cursor = "pointer";
+  prevBtn.classList.add("imgTransform");
+
+  nextBtn.setAttribute("id", "nextBtn");
+  nextBtn.setAttribute("width", "60px");
+  nextBtn.setAttribute("heigth", "60px");
+  nextBtn.style.padding = "5px";
+  nextBtn.style.marginBottom = "3px";
+  nextBtn.style.verticalAlign = "bottom";
+  nextBtn.style.cursor = "pointer";
+  nextBtn.classList.add("imgTransform");
+  
+  // insert behind the stop button
+  let parent = document.getElementById("imgStopBtn");
   parent.parentNode.insertBefore(nextBtn, parent.nextSibling);
   parent.parentNode.insertBefore(prevBtn, parent.nextSibling);
 }

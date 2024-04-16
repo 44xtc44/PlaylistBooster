@@ -15,8 +15,8 @@ class PlayList {
 
     this.nextBtn = undefined;  // Removed at every instance creation.
     this.prevBtn = undefined;
-    this.playBtn = document.getElementById("playBtn");
-    this.pauseBtn = document.getElementById("pauseBtn");
+    this.playBtn = document.getElementById("imgPlayBtn");
+    this.pauseBtn = document.getElementById("imgStopBtn");
     this.audioIcon = document.getElementById("audioIcon");
 
     this.timeLeftShow = false;  // show current time or remaining time

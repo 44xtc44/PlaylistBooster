@@ -39,7 +39,7 @@ video {
 #divRowCanvas {
   position:absolute;
   top:-3.4em;
-  left:400px;
+  left:250px;
   transform: scale(1.0,1.0);
   display:block;
 }
@@ -95,19 +95,13 @@ video {
 }
 #divAudioPanel {
   margin-bottom:20px;
-  /*
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  font-size: 100%;
-  */
 }
 
 #divPlayButtons {
   display: block;
   color: black;
   background-color: #f7b733;
+  min-height: 44px;
 }
 
 #divAudioControlsDetail {
@@ -139,9 +133,6 @@ video {
 .cursorP {
   cursor: pointer;
 }
-.fontSize200 {
-  font-size: 200%;
-}
 .mainDisplay {
   display: inline-block;
 }
@@ -159,4 +150,7 @@ video {
   color: black;
   padding: 4px;
   box-shadow: 6px 6px 12px rgba(0,0,0,0.5); 
+}
+.imgTransform:hover {
+ transform: scale(1.2);
 }
