@@ -8,10 +8,7 @@ var animationFrameCount = 0;
  * Runs on Browser refresh rate.
  */
 function animationMain() {
-
-  let idx = switchAnalyzer.analyzerListIdx;
-  switchAnalyzer.analyzerList[idx]();
-
+  drawAnalyzer({ canvasId: "rowCanvas" })
   /* requestAnimationFrame; only one in an app. */
   animationFrameCount = requestAnimationFrame(animationMain);
 }

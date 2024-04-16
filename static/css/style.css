@@ -7,7 +7,7 @@ html {
   -webkit-text-size-adjust: none;
 }
 :root {
-    --background-color: #ccc;
+    --background-color: #dfdce3;
     --hr-color: #eee;
     --border-color: #fff;
     --customTxtColor: black;
@@ -32,31 +32,14 @@ video {
 }
 #divTopNav {
   position:relative;
-  margin-bottom: 1.4em;
-  height: 30px;
+  height: 16px;
   z-index:10000;
   box-shadow:6px 6px 12px rgba(0,0,0,0.25);
 }
-.topNav {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #00BAF0;
-  background: linear-gradient(to left, #f46b45, #eea849);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  color: lightyellow;
-  height: 40px;
-  padding: 1em;
-  font-size: 130%;
-  font-weight: 600;
-  font-style: oblique;
-  text-shadow: 1px 1px 2px tomato;
-}
 #divRowCanvas {
   position:absolute;
-  top:-3.8em;
-  left:100px;
+  top:-3.4em;
+  left:400px;
   transform: scale(1.0,1.0);
   display:block;
 }
@@ -69,13 +52,6 @@ video {
   left: 20px;
   transform: scale(.3,.3);
 }
-#rowCanvasRear {
-  position: absolute;
-  top: 10px;
-  left: 20px;
-  transform: scale(.5,.5);
-  background-color: rgba(0,0,0,0.0);
-}
 .labelAudioSlider {
   position: relative;
   display: block;
@@ -83,12 +59,13 @@ video {
   margin-bottom: 5px;
 }
 #divAudioLabelWrap {
-  width: 250px;
+  width: 300px;
 }
 #divRunMenu {
   display: none;
   width: 100%;
-  background-color:rgba(255, 99, 71,0.96);
+  min-height: 50px;
+  background-color:rgba(252, 74, 26, 1);
   border: 2px solid rgba(255,255,255,0.1);
   box-shadow:30px 30px 35px rgba(0,0,0,0.25);
   color: lightyellow;
@@ -98,32 +75,39 @@ video {
   text-align: left;
   padding-left: 5px;
   width: 100%;
-  background-color:rgba(255, 99, 71,0.96);
+  background-color:rgba(252, 74, 26, 1);
   border: 2px solid rgba(255,255,255,0.1);
   box-shadow:30px 30px 35px rgba(0,0,0,0.25);
-  z-index: 2000;
+  z-index: 10000;
   color: lightyellow;
 }
 
 #audioControls {
   display:none;
   width: 100%;
-  background-color:rgba(255, 99, 71,0.96);
+  background-color:rgba(252, 74, 26, 1);
   border: 2px solid rgba(255,255,255,0.1);
   box-shadow:30px 30px 35px rgba(0,0,0,0.25);
   color: lightyellow;
 }
-#wrapPlayButtons {
+#divPlabackRate {
+  margin-left: 50px;
+}
+#divAudioPanel {
+  margin-bottom:20px;
+  /*
   position: fixed;
   bottom: 0;
   right: 0;
   width: 100%;
   font-size: 100%;
+  */
 }
+
 #divPlayButtons {
   display: block;
   color: black;
-  background-color: rgba(255, 213, 128,0.9);
+  background-color: #f7b733;
 }
 
 #divAudioControlsDetail {
@@ -166,12 +150,12 @@ video {
 }
 .mainTextFormat {
   margin-left: 30px;
-  font-size: 95%;
+  font-size: 100%;
   vertical-align: top;
   text-shadow: "1px 1px 2px tomato";
 }
 .mainContainer {
-  background:#FED8B1;
+  background:#4abdac;
   color: black;
   padding: 4px;
   box-shadow: 6px 6px 12px rgba(0,0,0,0.5); 

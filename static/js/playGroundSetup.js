@@ -5,17 +5,14 @@
   A div structure to attach and remove displayed 
   sound files and one or more canvas.
 */
-// file selcetor
+// file selecetor
 const fileUpload = document.createElement("input");
 const divFileUpload = document.createElement('div');
 const checkboxShuffle = document.createElement("input");
 const labelForShuffle = document.createElement("label");
 // nav bar (only decoration to host analyzer and time elapsed)
 const divTopNav = document.createElement('div');
-const topNav = document.createElement('section');
-const divLogo = document.createElement('div');  // also switch to current title
 const divRowCanvas = document.createElement('div');
-const rowCanvasRear = document.createElement('canvas');
 const rowCanvas = document.createElement('canvas');
 // Main area, symbol information 
 const divMainContainer_01 = document.createElement('div');
@@ -25,32 +22,25 @@ const divMainContainer_04 = document.createElement('div');
 const divMainImage_01_wrap = document.createElement('div');
 const divMainImage_02_wrap = document.createElement('div');
 const divMainImage_03_wrap = document.createElement('div');
-const divMainImage_04_wrap = document.createElement('div');
 const divMainText_01_wrap = document.createElement('div');
 const divMainText_02_wrap = document.createElement('div');
 const divMainText_03_wrap = document.createElement('div');
-const divMainText_04_wrap = document.createElement('div');
 const divMain = document.createElement('div');
 const imgMainTwoFiles = document.createElement("img");
 imgMainTwoFiles.src = "/static/images/playlistBooster-twoFiles.svg";
 const imgMainFolder = document.createElement("img");
 imgMainFolder.src = "/static/images/playlistBooster-folder.svg";
-const imgMainLogo = document.createElement("img");
-imgMainLogo.src = "/static/images/playlistBooster-cloud.svg"
 const imgMainAudioSpeaker  = document.createElement('span');
 
 // video 
 const divVdo = document.createElement('div');
 const labelForVdoScreen = document.createElement("label");
 // play list display 
-const divFrameRightWait = document.createElement('div');  // put the element in a place we know if detached
-const divFrameRight = document.createElement('div');
-const divPlayListShow = document.createElement('div');
 const divPlayList = document.createElement('div');
 const divPlayListContainer = document.createElement('div');
 const divPlayListAnimation = document.createElement('div');
 // audio panel
-const wrapPlayButtons = document.createElement("div");
+const divAudioPanel = document.createElement("div");
 const divPlayButtons = document.createElement("div");
 const playBtn = document.createElement("span");
 const pauseBtn = document.createElement("span");
@@ -104,33 +94,17 @@ function createPlayGround() {
   divFileUpload.setAttribute("id", "divFileUpload");
   // nav bar
   divTopNav.setAttribute("id", "divTopNav");
-  topNav.className = "topNav";
-  divLogo.setAttribute("id", "divLogo");
-  divLogo.innerText = "PlaylistBooster";
-  divLogo.style.width = "200px";
-  divFrameRightWait.setAttribute("id", "divFrameRightWait");
-  divFrameRight.setAttribute("id", "divFrameRight");
-  divPlayListShow.setAttribute("id", "divPlayListShow");
-  divPlayList.setAttribute("id", "playList");
+  divPlayList.setAttribute("id", "divPlayList");
   divRowCanvas.setAttribute("id", "divRowCanvas");
   rowCanvas.setAttribute("id", "rowCanvas");
-  rowCanvas.style.cursor = "pointer";
   rowCanvas.className = "stackCanvas";
   rowCanvas.style.display = "none";
-  rowCanvas.addEventListener('click', (e) => {
-    toggleRowAnalyzer();
-  });
-  rowCanvasRear.setAttribute("id", "rowCanvasRear");
-  rowCanvasRear.className = "stackCanvas";
-  rowCanvasRear.style.display = "inline-block";
   // Main area
   divMain.setAttribute("id", "divMain");
   imgMainFolder.setAttribute("width", "40px");
   imgMainFolder.setAttribute("heigth", "40px");
   imgMainTwoFiles.setAttribute("width", "40px");
   imgMainTwoFiles.setAttribute("heigth", "40px");
-  imgMainLogo.setAttribute("width", "40px");
-  imgMainLogo.setAttribute("heigth", "40px");
   imgMainAudioSpeaker.innerHTML = "&#128266;";
   imgMainAudioSpeaker.style.fontSize ="200%";
   divMainContainer_01.classList.add("mainContainer");
@@ -149,11 +123,6 @@ function createPlayGround() {
   divMainImage_03_wrap.classList.add("mainImageFormat"); 
   divMainText_03_wrap.classList.add("mainDisplay");
   divMainText_03_wrap.classList.add("mainTextFormat");
-  divMainImage_04_wrap.classList.add("mainDisplay");
-  divMainImage_04_wrap.classList.add("mainImageFormat"); 
-  divMainText_04_wrap.classList.add("mainDisplay");
-  divMainText_04_wrap.classList.add("mainTextFormat");
-
   divMainText_01_wrap.innerHTML = "<p>Show the file selector.<br>Playlist is an oldschool folder.</p>";
   divMainText_02_wrap.innerHTML = "<p>Multi-file-select with 'file-upload' mask. (local Add-on)</p>"
     + "<ul>"
@@ -168,7 +137,6 @@ function createPlayGround() {
     + "<li>Time-seek</li>"
     + "<li>Playback rate</li>"
     + "</ul>";
-  divMainText_04_wrap.innerHTML = "<p>Click enables spectrum analyzer mini-show.<br>Active if media is loaded.</p>";
 
   // video 
   divVdo.setAttribute("id", "divVdo");
@@ -186,7 +154,7 @@ function createPlayGround() {
   labelForShuffle.setAttribute("for", "checkboxShuffle");
   labelForShuffle.innerText = "Shuffle";
   // audio panel
-  wrapPlayButtons.setAttribute("id", "wrapPlayButtons");
+  divAudioPanel.setAttribute("id", "divAudioPanel");
   divPlayButtons.setAttribute("id", "divPlayButtons");
   playBtn.setAttribute("id", "playBtn");
   playBtn.className = "playBtn";
@@ -205,7 +173,7 @@ function createPlayGround() {
   audioIcon.classList.add("cursorP");
   audioIcon.classList.add("fontSize200");
   audioIcon.innerHTML = "&#128266;";
-  audioIcon.addEventListener('click', (e) => {
+  audioIcon.addEventListener('click', () => {
     showAudioControls.toggle();
   });
   spanFolderImgAudio.classList.add("spanInRow");
@@ -213,10 +181,10 @@ function createPlayGround() {
   folderImgAudio.setAttribute("heigth", "40px");
   folderImgAudio.style.verticalAlign = "bottom";
   folderImgAudio.classList.add("cursorP");
-  folderImgAudio.addEventListener('click', (e) => {
+  folderImgAudio.addEventListener('click', () => {
     showDivRunMenu.toggle();
   });
-  // audio volume gain time-seek
+  // volume gain time-seek
   timeRuler.classList.add("cursorP");
   audioVolume.classList.add("cursorP");
   audioGain.classList.add("cursorP");
@@ -224,7 +192,7 @@ function createPlayGround() {
   audioSlider.setAttribute("id", "audioSlider");
   labelForTimeRuler.setAttribute("id", "labelForTimeRuler");
   labelForTimeRuler.setAttribute("for", "durationController");
-  labelForTimeRuler.innerText = "time-seek";
+  labelForTimeRuler.innerText = "Time-seek";
   divTimeRuler.classList.add("labelAudioSlider");
   labelForAudioGain.setAttribute("id", "labelForAudioGain");
   labelForAudioGain.setAttribute("for", "audioGainController");
@@ -236,8 +204,8 @@ function createPlayGround() {
   divAudioVolume.classList.add("labelAudioSlider");
   divAudioLabelWrap.setAttribute("id", "divAudioLabelWrap");
   divAudioLabelWrap.style.marginLeft = "20px";
-  divAudioLabelWrap.style.marginBottom = "20px";
   divAudioLabelWrap.style.fontSize = "110%";
+  divPlabackRate.setAttribute("id", "divPlabackRate");
   labelForPlaybackHalf.setAttribute("id", "labelForPlabackRateHalf");
   labelForPlaybackHalf.setAttribute("for", "plbr_0_5");
   labelForPlaybackHalf.innerText = "  0.5x";
@@ -277,6 +245,10 @@ function createPlayGround() {
   });
   divRunMenu.setAttribute("id", "divRunMenu");
   spantwoFilesImgRun.innerText = "collect files"
+  spantwoFilesImgRun.addEventListener('click', () => {
+    fileUpload.click();
+  });
+  spantwoFilesImgRun.style.cursor = "pointer";
   spantwoFilesImgRun.classList.add("spanInRow");
   spanLabelForShuffle.classList.add("spanInRow");
   spanLabelForVdo.classList.add("spanInRow");
@@ -287,14 +259,14 @@ function createPlayGround() {
  */
 function arrangePlayGround() {
   // Menu
-  root.appendChild(divTopNav);
-  divTopNav.appendChild(topNav);
-  topNav.appendChild(divLogo);
-  divRowCanvas.appendChild(rowCanvasRear);  // first is bottom
+  root.appendChild(divTopNav);  
+  divTopNav.appendChild(divRowCanvas);
+  divTopNav.appendChild(divAudioPanel); 
+  divTopNav.appendChild(divMain);
+  divTopNav.appendChild(divVdo);
+  divTopNav.appendChild(divPlayList);
   divRowCanvas.appendChild(rowCanvas);
-  divTopNav.appendChild(divRowCanvas);  // canvas
   // Main area
-  root.appendChild(divMain);
   divMain.appendChild(divMainContainer_01);  // to display div side by side
   divMain.appendChild(divMainContainer_02);
   divMain.appendChild(divMainContainer_03);
@@ -305,13 +277,10 @@ function arrangePlayGround() {
   divMainContainer_02.appendChild(divMainText_02_wrap);
   divMainContainer_03.appendChild(divMainImage_03_wrap);
   divMainContainer_03.appendChild(divMainText_03_wrap);
-  divMainContainer_04.appendChild(divMainImage_04_wrap);
-  divMainContainer_04.appendChild(divMainText_04_wrap);
   divMainImage_01_wrap.appendChild(imgMainFolder);
   divMainImage_02_wrap.appendChild(imgMainTwoFiles);
   divMainImage_03_wrap.appendChild(imgMainAudioSpeaker);
-  divMainImage_04_wrap.appendChild(imgMainLogo);
-  // about menu under wrapPlayButtons
+  // about menu under divAudioPanel
   divMenuAbout.appendChild(menuAbout);
   // run menu
   labelForShuffle.appendChild(checkboxShuffle);
@@ -323,29 +292,23 @@ function arrangePlayGround() {
   divRunMenu.appendChild(spanLabelForVdo);
   divRunMenu.appendChild(spantwoFilesImgRun);
   // video
-  root.appendChild(divVdo);
   divVdo.appendChild(video);
   // play list text
-  root.appendChild(divFrameRight);
-  root.appendChild(divFrameRightWait);
-  root.appendChild(divPlayList);
   divPlayList.appendChild(divPlayListContainer);
   divPlayListContainer.appendChild(divPlayListAnimation);
-  divPlayListContainer.appendChild(divPlayListShow);
   divPlayListAnimation.appendChild(fileUpload);
   // audio panel
-  root.appendChild(wrapPlayButtons);
-  wrapPlayButtons.appendChild(divPlayButtons);
-  wrapPlayButtons.appendChild(divRunMenu);
-  wrapPlayButtons.appendChild(audioControls);
-  wrapPlayButtons.appendChild(wrapAboutMenu);
+  divAudioPanel.appendChild(divPlayButtons);
+  divAudioPanel.appendChild(divRunMenu);
+  divAudioPanel.appendChild(audioControls);
+  divAudioPanel.appendChild(wrapAboutMenu);
   divPlayButtons.appendChild(playBtn);
   divPlayButtons.appendChild(pauseBtn);
   divPlayButtons.appendChild(audioIcon);
   spanFolderImgAudio.appendChild(folderImgAudio);
   divPlayButtons.appendChild(spanFolderImgAudio);
   divPlayButtons.appendChild(divMenuAbout);
-  // audio volume gain time-seek
+  // volume gain time-seek
   audioControls.appendChild(audioSlider);
   labelForAudioVolume.appendChild(audioVolume);
   labelForAudioGain.appendChild(audioGain);
@@ -366,8 +329,6 @@ function arrangePlayGround() {
   divAudioLabelWrap.appendChild(divTimeRuler);
   divAudioLabelWrap.appendChild(divPlabackRate);
   audioControls.appendChild(divAudioLabelWrap);
-  // add cloudLogo
-  drawCloudLogoCanvas({ canvasId: "rowCanvasRear" });
 }
 
 /**
@@ -400,35 +361,4 @@ function createBtnNextPrev() {
   let parent = document.getElementById("pauseBtn");
   parent.parentNode.insertBefore(nextBtn, parent.nextSibling);
   parent.parentNode.insertBefore(prevBtn, parent.nextSibling);
-}
-
-/**
- * Object tag in HTML page reads SVG from disk.
- * Scratch the string form (like xml serialized) out of the object and
- * import new SVG into DOM. Circumvent fetch from server.
- */
-function addCloudLogoDom() {
-  let xml = document.getElementById("svg-cloud").contentDocument.activeElement.outerHTML;  // object tag in HTML page
-  const parser = new DOMParser();
-  const cloudLogo = parser.parseFromString(xml, 'text/html').body.childNodes[0];
-  document.body.append(cloudLogo)
-  cloudLogo.style.display = "none";  // Can grab the path ids later to manipulate, show/hide.
-}
-
-function drawCloudLogoCanvas(opt) {
-  let canvas = document.getElementById(opt.canvasId);
-  let ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  let svg = document.getElementById("playlistBooster-svg-cloud");  // <symbol> in playlist....html
-  let xml = new XMLSerializer().serializeToString(svg);
-  let head = 'data:image/svg+xml;base64,';
-  let bodySvg64 = btoa(xml);
-  let image64 = head + bodySvg64;
-
-  let img = new Image();
-  img.onload = function () {
-    ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
-  }
-  img.src = image64;
 }

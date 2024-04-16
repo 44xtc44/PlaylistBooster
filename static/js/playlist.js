@@ -2,19 +2,13 @@
 "use strict";
 
 /**
- * Plays local sound files.
+ * Plays local media files.
  * Can move through the playlist, back and forth.
  */
-var refreshIntervalId;  // setinterval killer
-
 class PlayList {
 
   constructor() {
-    this.divLogo = document.getElementById('divLogo');  // addon extra
-    this.detachWait = document.getElementById('divFrameRightWait');
-    this.divFrameRight = document.getElementById('divFrameRight');
-    this.divPlayListShow = document.getElementById('divPlayListShow');
-    this.divPlayList = document.getElementById('playList');
+    this.divPlayList = document.getElementById('divPlayList');
     this.checkboxShuffle = document.getElementById("checkboxShuffle");
     this.checkboxVdoScreen = document.getElementById("checkboxVdoScreen");
     this.checkboxPlaybackRateOne = document.getElementById("plbr_1_0");
@@ -25,7 +19,9 @@ class PlayList {
     this.pauseBtn = document.getElementById("pauseBtn");
     this.audioIcon = document.getElementById("audioIcon");
 
-    this.playListMember = [];  // Get the file objects here, not only the title.
+    this.timeLeftShow = false;  // show current time or remaining time
+
+    this.playListMember = [];  // Get the file objects here.
     this.trackNumber = 0;
     this.trackCount = 0;
     this.fadeIn = [{ opacity: 0 }, { opacity: 1 }]; // css styling show, key frame thingy args
@@ -38,10 +34,9 @@ class PlayList {
     this.trackCount = 0;
     // DOM
     video.src = "";
-    // this.checkboxPlaybackRateOne.click();
+    this.divPlayList.style.display = "block";
     divMain.style.display = "none";  // help info
     rowCanvas.style.display = "block";  // analyzer
-    rowCanvasRear.style.display = "none";  // logo
     try {
       nextBtn.remove();  // Get rid of evt listener on btn. 
       prevBtn.remove();
@@ -49,21 +44,18 @@ class PlayList {
     createBtnNextPrev();
     this.nextBtn = document.getElementById("nextBtn");
     this.prevBtn = document.getElementById("prevBtn");
-    // setIntervall killer
-    clearInterval(refreshIntervalId);
+    showDivRunMenu.toggle()
   }
   create() {
     // Entry point.
     this.resetEnv();
-    this.createHtmlDisplay();
-    this.attachAnimation();
     this.shufflePlayList();
+    this.createHtmlDisplay();
     this.suppressVideoDisplay();
     this.playLocalMedia();
     this.drawButtons();
     this.addListenerButtons();  // Btn prev, next are recreated at each instance call.
     this.trackCount = this.playListMember.length;
-    refreshIntervalId = setInterval(() => { this.mediaTimeShow() }, 1000);
   }
   playLocalMedia() {
     let self = this;
@@ -92,29 +84,13 @@ class PlayList {
     // each <track name> is shown on its own child div, this div has the div.id attribute set as <track name> to be unique
     let curTitleName = document.getElementById(self.playListMember[self.trackNumber].name);
     curTitleName.innerText = showText;
-    curTitleName.style.background = "linear-gradient(to left, #f46b45, #eea849)";  // hex!
+    curTitleName.style.background = "#fc4a1a"  // hex!
     curTitleName.style.color = "lightyellow";
     curTitleName.style.padding = "4px";
     curTitleName.style.fontSize = "130%";
     curTitleName.style.fontWeight = "600";
     curTitleName.style.fontStyle = "oblique";
     curTitleName.style.textShadow = "1px 1px 2px tomato";
-  }
-  mediaTimeShow() {
-    let self = this;
-    try {
-      let duration = video.duration;
-      let currentTime = video.currentTime;
-      let seconds = Math.floor(duration - currentTime)
-      let hours = Math.floor(duration / 3600);
-      let minutes = Math.floor(seconds / 60);
-      let extraSeconds = seconds % 60;
-      if(isNaN(hours) || isNaN(minutes) || isNaN(extraSeconds)) throw new Error("Video element can not read time.");
-      let msg = self.trackCount + " tracks :: " + hours + ":" + minutes + ":" + extraSeconds + " ";
-      self.divLogo.innerText = msg;
-    } catch (error) {
-      self.divLogo.innerText = self.trackCount + " tracks";
-    }
   }
   removeElementFromParent(elementId) {
     try {
@@ -124,10 +100,6 @@ class PlayList {
   markPlayedFile(fName) {
     /* Mark played files and del div from list to generate some action. */
     let playedFile = document.getElementById(fName);
-    try {
-      playedFile.style.color = "red";
-    } catch (error) { return; }
-
     let playedRemove = () => {
       /* 
       * MDN hint: 
@@ -175,15 +147,24 @@ class PlayList {
     /* Collect all the file references from upload mask and create a list of the file names.
        Each file name gets its own div, so we can later reduce, remove the played list members.
     */
-    let parent = this.divPlayListShow;
+    let parent = this.divPlayList;
     let id = "";
     let innerText = "";
-    let elemClass = "divChildOfPlayListShow";
 
     this.removeDiv({ id: parent });  // old HTML display
+
+    if (this.checkboxShuffle.checked) {
+      for (let i = this.trackNumber; i < this.playListMember.length; ++i) {
+        id = this.playListMember[i].name;
+        innerText = this.playListMember[i].name;
+        this.appendDiv({ parent: parent, id: id, innerText: innerText });
+      }
+      return;
+    }
+    // regular
     for (let i = 0; i < fileUpload.files.length; ++i) {
       innerText = id = fileUpload.files[i]["name"];  // DOM needs unique id
-      this.appendDiv({ parent: parent, id: id, elemClass: elemClass, innerText: innerText });
+      this.appendDiv({ parent: parent, id: id, innerText: innerText });
     }
   }
   appendDiv(opt) {
@@ -192,16 +173,14 @@ class PlayList {
     div.id = opt.id;  // id of new child
     div.classList.add(opt.elemClass);
     div.innerText = opt.innerText;
-    div.style.background = "#FED8B1";
-    div.style.color = "black";
+    div.style.background = "#4abdac";
+    div.style.color = "#000";
     div.style.padding = "4px";
-    div.style.fontSize = "90%";
+    div.style.fontSize = "110%";
     div.style.fontWeight = "500";
     div.style.fontStyle = "normal";
-    div.style.textShadow = "0px 0px 0px black";
     div.style.fontFamily = "Roboto, Helvetica, Arial, sans-serif";
     div.style.boxShadow = "6px 6px 12px rgba(0,0,0,0.5)";
-
     opt.parent.appendChild(div);  // parent is full path document.getElem...
   }
   removeDiv(opt) {
@@ -209,61 +188,54 @@ class PlayList {
       opt.id.removeChild(opt.id.lastChild);
     }
   }
-  attachAnimation() {
-    let parent = this.divFrameRight;
-    let node = this.divPlayList;
-    // put our custom divs where we find them later
-    this.removeDiv({ id: parent });
-    // put the playlist in the right container
-    parent.appendChild(node);  // detach the node from origin and add to a div destination container in DOM
-    this.detachWait.style.display = "none";
-  }
   drawButtons() {
     // not needed for network streams
-    this.nextBtn.style.display = "inline-block";
-    this.prevBtn.style.display = "inline-block";
+    if(this.nextBtn !== undefined && this.prevBtn !== undefined) {
+      this.nextBtn.style.display = "inline-block";
+      this.prevBtn.style.display = "inline-block";
+    }
   }
+  /**
+   * Problem to remove evt listener.
+   * If listener is pointing to a class method, 
+   * 'this' is not available (no instace property fields access).
+   * If listener points to a function in a var,
+   * listener can not be removed with x.removeEventlistener()
+   * Remove the DOM elements to get rid of the listener.
+   */
   addListenerButtons() {
-    /* Moving through playlist. 
-    * Listener for 'prev', 'next' button must be created full fun, not arrow, to remove them.
-    */
     let self = this;
-    let parent = self.divPlayListShow;
-    let id;
-    let innerText;
+    let parent = self.divPlayList;
+    let id = "";
+    let innerText = "";
     self.playBtn.addEventListener("click", () => {
       video.play();
     });
     self.pauseBtn.addEventListener("click", () => {
       video.pause();
     });
-
-    this.evtNextBtn = (e) => {
+    self.nextBtn.addEventListener("click", () => {
       /*
-        The list is rebuild on every click.
+        The list rebuilds on every click.
       */
-      if (self.trackNumber >= (self.playListMember.length - 1)) {
-        return;
-      } else {
-        // clean up div element
-        this.removeDiv({ id: parent });
-        // redraw the list with remaining titles, first header then titles in loop
-        for (let i = self.trackNumber; i < self.playListMember.length; ++i) {
-          id = self.playListMember[i].name;
-          innerText = self.playListMember[i].name;
-          self.appendDiv({ parent: parent, id: id, innerText: innerText });
+        if (self.trackNumber >= (self.playListMember.length - 1)) {
+          return;
+        } else {
+          this.removeDiv({ id: parent });
+          // redraw the list with remaining titles, first header then titles in loop
+          for (let i = self.trackNumber; i < self.playListMember.length; ++i) {
+            id = self.playListMember[i].name;
+            innerText = self.playListMember[i].name;
+            self.appendDiv({ parent: parent, id: id, innerText: innerText });
+          }
+          self.trackNumber++;
+          self.playLocalMedia();
         }
-        self.trackNumber++;
-        self.playLocalMedia();
-      }
-    };
-
-    this.evtPrevBtn = (e) => {
+    });
+    self.prevBtn.addEventListener("click", () => {
       if (self.trackNumber === 0) { return; }
       if ((self.trackNumber <= self.playListMember.length) && (self.trackNumber > 0)) {
-        // clean up div element
         this.removeDiv({ id: parent });
-        // redraw the list with remaining titles
         // go back one index num from current and draw original partial list from there
         for (let i = (self.trackNumber - 1); i < self.playListMember.length; ++i) {
           id = self.playListMember[i].name;
@@ -273,9 +245,6 @@ class PlayList {
         self.trackNumber--;
         self.playLocalMedia();
       }
-    };
-
-    self.nextBtn.addEventListener("click", this.evtNextBtn, false);
-    self.prevBtn.addEventListener("click", this.evtPrevBtn, false);
+    }); 
   }
 }

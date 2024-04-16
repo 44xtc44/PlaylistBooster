@@ -31,7 +31,6 @@ const analyserNodeOne = audioContext.createAnalyser();
 const analyserNodeTwo = audioContext.createAnalyser();  // second analyzer show, other fft size
 
 var playList = undefined;  // instance of class PlayList
-var timeSeekCount = 0;  // save system load
 
 window.addEventListener('load', () => {
   createAudio();
@@ -99,12 +98,7 @@ function createPlaybackRadios() {
   plbr_2_0.addEventListener("input", setPlavbackRateTwo);
 }
 function getTimeSetRuler() {
-  // 'timeupdate' system event fires up to system load, slow pace
-  timeSeekCount += 1;
-  if (timeSeekCount > 5) {
-    timeSeekCount = 0;
-    timeRuler.value = (video.currentTime * 100) / video.duration;
-  }
+  timeRuler.value = (video.currentTime * 100) / video.duration;
 }
 function setTimeRuler() {
   // user change range value
@@ -149,15 +143,8 @@ function connectAnalyzer() {
   audioSource.connect(analyserNodeOne).connect(gainNode).connect(audioContext.destination);  // audio + extra analyzer
   audioSource.connect(analyserNodeTwo); // data copy for analyzer in fake menu bar
 }
-function disconnectAnalyzer() {
-  audioSource = null;
-}
-
 function runLocalSound() {
   // class PlayList pulls "fileUpload.files" list from the input element "fileUpload"
-  document.getElementById('divFrameRight').style.display = "block";
-  document.getElementById('divPlayListShow').style.display = "block";
-  document.getElementById('playList').style.display = "block";
   playList = new PlayList();
   playList.create();
 }
