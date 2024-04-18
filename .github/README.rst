@@ -1,13 +1,14 @@
-Playlist Shuffle Booster [Volume Gain]
+Playlist Booster Shuffle [Volume Gain]
 ======================================
 
 Overview
 ---------
 This repository shows the source code of a browser add-on.
+Runs on FireFox.
 
-* Shuffle and play a media file folder
-* Play browser supported media files. mp4, aac, mp3, ogg, flac, wbem, wav, ...
-* Gain booster runs Bluetooth ear buds
+* ( Android ) browser media player
+* Gain booster, Time-seek and playback rate options 
+* Quick load a music list for the Gym
 
 HowTo
 -----
@@ -16,28 +17,21 @@ Start screen shows instructions
 .. image:: ./start.png
             :alt: start screen
             :class: with-border
-            :height: 590
-
--
-
-.. image:: ./options.png
-            :alt: show options
-            :class: with-border
-            :height: 590
+            :height: 585
 
 -
 
 .. image:: ./sound.png
             :alt: sound files active
             :class: with-border
-            :height: 590
+            :height: 585
 
 -
 
 .. image:: ./video.png
             :alt: video files active
             :class: with-border
-            :height: 590
+            :height: 585
 
 
 Gain - preamp
