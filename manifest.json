@@ -3,7 +3,7 @@
   "author": "René Horn",
   "name":"Playlist Booster Shuffle [Volume Gain]",
   "short_name": "PlaylistBooster",
-  "description": "Play local sound and video in the browser. [mp4, wbem, aac, mp3, ogg, ...] Gain booster, Time-seek and playback rate options.",
+  "description": "Android browser media player. Gain booster, Time-seek and playback rate options. Quick load a music list for the Gym.",
   "manifest_version":2,
   "homepage_url": "https://github.com/44xtc44/PlaylistBooster.git",
   "browser_action": {

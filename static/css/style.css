@@ -36,22 +36,6 @@ video {
   z-index:10000;
   box-shadow:6px 6px 12px rgba(0,0,0,0.25);
 }
-#divRowCanvas {
-  position:absolute;
-  top:-3.4em;
-  left:250px;
-  transform: scale(1.0,1.0);
-  display:block;
-}
-.stackCanvas {
-  position: absolute;
-  left:0em;
-}
-#rowCanvas {
-  position: absolute;
-  left: 20px;
-  transform: scale(.3,.3);
-}
 .labelAudioSlider {
   position: relative;
   display: block;
@@ -90,20 +74,12 @@ video {
   box-shadow:30px 30px 35px rgba(0,0,0,0.25);
   color: lightyellow;
 }
-#divPlabackRate {
-  margin-left: 50px;
-}
-#divAudioPanel {
-  margin-bottom:20px;
-}
-
 #divPlayButtons {
   display: block;
   color: black;
   background-color: #f7b733;
   min-height: 44px;
 }
-
 #divAudioControlsDetail {
   position: relative;
   left: 20px;
@@ -111,25 +87,16 @@ video {
 }
 #labelForShuffle {
   color: lightyellow;
-  font-size: 15px;
-  font-weight: 500;
   text-align:right;
 }
 #labelForVdoScreen {
-  position: relative;
-  color: lightyellow;
-  font-size: 15px;
-  font-weight: 500;
   text-align:right;
 }
 #audioSlider {
   bottom:0px;
   left:0px;
 }
-.spanInRow {
-  margin-left: 20px;
-  margin-top: 5px;
-}
+
 .cursorP {
   cursor: pointer;
 }
@@ -140,10 +107,9 @@ video {
   vertical-align: bottom;
 }
 .mainTextFormat {
-  margin-left: 30px;
+  margin-left: 10px;
   font-size: 100%;
   vertical-align: top;
-  text-shadow: "1px 1px 2px tomato";
 }
 .mainContainer {
   background:#4abdac;

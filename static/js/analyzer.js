@@ -36,4 +36,3 @@ function drawAnalyzer(opt) {
   }
   ctx.stroke();
 }
-

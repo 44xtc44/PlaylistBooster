@@ -1,6 +1,9 @@
 // index.js
 "use strict";
 /**
+ * Browser extension for PC and Android
+ * $ apk devices -l
+ * $ web-ext run --target=firefox-android --android-device xxx --firefox-apk org.mozilla.fenix
 * @author René Horn
 * @author www.github.com/44xtc44
 * @version 1.1
@@ -20,7 +23,6 @@ const plbr_2_0 = document.createElement("input");
 const checkboxVdoScreen = document.createElement("input");
 
 window.showAudioControls = null;
-window.showWrapAboutMenu = null;
 window.showDivRunMenu = null;
 
 const audioContext = new AudioContext();
@@ -42,7 +44,6 @@ window.addEventListener('load', () => {
   checkboxVdoScreen.addEventListener("input", setCheckboxVdoScreen);
 
   showAudioControls = new IsShown("audioControls");
-  showWrapAboutMenu = new IsShown("wrapAboutMenu");
   showDivRunMenu = new IsShown("divRunMenu");
 });
 
