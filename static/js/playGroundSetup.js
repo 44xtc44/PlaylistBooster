@@ -10,9 +10,10 @@ const fileUpload = document.createElement("input");
 const divFileUpload = document.createElement('div');
 const checkboxShuffle = document.createElement("input");
 const labelForShuffle = document.createElement("label");
-// nav bar (only decoration to host analyzer and time elapsed)
+// top of the page
 const divTopNav = document.createElement('div');
 const rowCanvas = document.createElement('canvas');
+const divMediaTime = document.createElement('div');
 // Main area, symbol information 
 const divMainContainer_01 = document.createElement('div');
 const divMainContainer_02 = document.createElement('div');
@@ -48,8 +49,7 @@ audioIcon.src = "/static/images/playlistBooster-btn-speaker.svg";
 const imgKillBtn = document.createElement("img");
 imgKillBtn.src = "/static/images/playlistBooster-btn-kill.svg";
 // audio volume gain time-seek
-const audioControls = document.createElement('div');
-const audioSlider = document.createElement('div');
+const divAudioControls = document.createElement('div');
 const labelForAudioVolume = document.createElement("label");
 const labelForAudioGain = document.createElement("label");
 const labelForTimeRuler = document.createElement("label");
@@ -93,12 +93,6 @@ function createPlayGround() {
   // nav bar
   divTopNav.setAttribute("id", "divTopNav");
   divPlayList.setAttribute("id", "divPlayList");
-  rowCanvas.setAttribute("id", "rowCanvas");
-  rowCanvas.style.position = "absolute";
-  rowCanvas.style.top = "0px";
-  rowCanvas.style.left = "0px";
-  rowCanvas.style.width = "44px";
-  rowCanvas.style.height = "44px";
   // Main area
   divMain.setAttribute("id", "divMain");
   imgMainFolder.setAttribute("width", "40px");
@@ -120,7 +114,7 @@ function createPlayGround() {
   divMainText_01_wrap.classList.add("mainTextFormat");
   divMainText_01_wrap.classList.add("cursorP");
   divMainText_01_wrap.innerHTML = "<ul>"
-    + "<li>Select video and audio files</li>"
+    + "<li>Select files</li>"
     + "<li>Shuffle ON/OFF</li>"
     + "</ul>";
   divMainText_01_wrap.addEventListener('click', () => {
@@ -176,71 +170,61 @@ function createPlayGround() {
   labelForShuffle.innerText = "Shuffle";
   labelForShuffle.classList.add("cursorP");
   // audio panel
+  rowCanvas.setAttribute("id", "rowCanvas");
+  rowCanvas.style.position = "absolute";
+  rowCanvas.style.marginLeft = "3px";
+  rowCanvas.classList.add("audioImages");
   divAudioPanel.setAttribute("id", "divAudioPanel");
   divPlayButtons.setAttribute("id", "divPlayButtons");
   imgPlayBtn.setAttribute("id", "imgPlayBtn");
-  imgPlayBtn.setAttribute("width", "40px");
-  imgPlayBtn.setAttribute("heigth", "40px");
-  imgPlayBtn.style.padding = "5px";
-  imgPlayBtn.style.marginLeft = "46px";
-  imgPlayBtn.style.marginBottom = "1px";
+  imgPlayBtn.style.marginLeft = "44px";
   imgPlayBtn.style.verticalAlign = "bottom";
-  imgPlayBtn.style.cursor = "pointer";
+  imgPlayBtn.classList.add("audioImages");
   imgPlayBtn.classList.add("imgTransform");
   imgStopBtn.setAttribute("id", "imgStopBtn");
-  imgStopBtn.setAttribute("width", "40px");
-  imgStopBtn.setAttribute("heigth", "40px");
-  imgStopBtn.style.padding = "5px";
-  imgStopBtn.style.marginBottom = "1px";
-  imgStopBtn.style.verticalAlign = "bottom";
-  imgStopBtn.style.cursor = "pointer";
+  imgStopBtn.style.marginLeft = "0px";
+  imgStopBtn.classList.add("audioImages");
   imgStopBtn.classList.add("imgTransform");
   audioIcon.setAttribute("id", "audioIcon");
-  audioIcon.setAttribute("width", "44px");
-  audioIcon.setAttribute("heigth", "44px");
-  audioIcon.style.padding = "5px";
   audioIcon.style.marginLeft = "5px";
-  audioIcon.style.verticalAlign = "bottom";
-  audioIcon.style.cursor = "pointer";
+  audioIcon.classList.add("audioImages");
   audioIcon.classList.add("imgTransform");
   audioIcon.addEventListener('click', () => {
     showAudioControls.toggle();
   });
   imgKillBtn.setAttribute("id", "imgKillBtn");
-  imgKillBtn.setAttribute("width", "40px");
-  imgKillBtn.setAttribute("heigth", "40px");
-  imgKillBtn.style.padding = "5px";
-  imgKillBtn.style.marginBottom = "1px";
   imgKillBtn.style.marginLeft = "5px";
-  imgKillBtn.style.verticalAlign = "bottom";
-  imgKillBtn.style.cursor = "pointer";
+  imgKillBtn.classList.add("audioImages");
   imgKillBtn.classList.add("imgTransform");
   imgKillBtn.addEventListener('click', () => {
     location.reload(true);
   });
   // volume gain time-seek
   timeRuler.classList.add("cursorP");
+  timeRuler.style.width = "75%";
   audioVolume.classList.add("cursorP");
+  audioVolume.style.width = "75%";
   audioGain.classList.add("cursorP");
-  audioControls.setAttribute("id", "audioControls");
-  audioSlider.setAttribute("id", "audioSlider");
+  audioGain.style.width = "75%";
+  divMediaTime.setAttribute("id", "divMediaTime");
+  divMediaTime.style.margin = "5px";
+  divMediaTime.style.fontSize = "120%";
+  divMediaTime.style.color = "#f7b733";
+  divAudioControls.setAttribute("id", "divAudioControls");
   labelForTimeRuler.setAttribute("id", "labelForTimeRuler");
   labelForTimeRuler.setAttribute("for", "durationController");
-  labelForTimeRuler.innerText = "Time-seek";
-  divTimeRuler.classList.add("labelAudioSlider");
+  labelForTimeRuler.innerHTML = "<div style=margin-left:5px;min-width:100px'>Time-seek</div>";
   labelForAudioGain.setAttribute("id", "labelForAudioGain");
   labelForAudioGain.setAttribute("for", "audioGainController");
-  labelForAudioGain.innerText = "Gain";
-  divAudioGain.classList.add("labelAudioSlider");
+  labelForAudioGain.innerHTML = "<div style=margin-left:5px;min-width:100px'>Gain</div>";
   labelForAudioVolume.setAttribute("id", "labelForAudioVolume");
   labelForAudioVolume.setAttribute("for", "audioVolumeController");
-  labelForAudioVolume.innerText = "Volume";
-  divAudioVolume.classList.add("labelAudioSlider");
+  labelForAudioVolume.innerHTML = "<div style=margin-left:5px;min-width:100px'>Volume</div>";
   divAudioLabelWrap.setAttribute("id", "divAudioLabelWrap");
-  divAudioLabelWrap.style.marginLeft = "20px";
+  divAudioLabelWrap.style.marginLeft = "0px";
   divAudioLabelWrap.style.fontSize = "120%";
   divPlabackRate.setAttribute("id", "divPlabackRate");
-  divPlabackRate.style.marginLeft = "50px";
+  divPlabackRate.style.marginLeft = "5px";
   divPlabackRate.style.marginTop = "10px";
   labelForPlaybackHalf.setAttribute("id", "labelForPlabackRateHalf");
   labelForPlaybackHalf.setAttribute("for", "plbr_0_5");
@@ -254,15 +238,12 @@ function createPlayGround() {
   labelForPlaybackTwo.setAttribute("id", "labelForPlaybackTwo");
   labelForPlaybackTwo.setAttribute("for", "plbr_2_0");
   labelForPlaybackTwo.innerText = "  2.0x";
-  divLabelForVdo.style.marginLeft = "50px";
+  divLabelForVdo.style.marginLeft = "5px";
   divLabelForVdo.style.marginTop = "15px";
   divLabelForVdo.style.marginBottom = "15px";
   // run menu
   twoFilesImgRun.setAttribute("id", "twoFilesImgRun");
-  twoFilesImgRun.setAttribute("width", "40px");
-  twoFilesImgRun.setAttribute("heigth", "40px");
-  twoFilesImgRun.style.verticalAlign = "bottom";
-  twoFilesImgRun.classList.add("cursorP");
+  twoFilesImgRun.classList.add("audioImages");
   twoFilesImgRun.classList.add("imgTransform");
   twoFilesImgRun.addEventListener('click', () => {
     fileUpload.click();
@@ -286,6 +267,7 @@ function arrangePlayGround() {
   divTopNav.appendChild(divAudioPanel);
   divTopNav.appendChild(divMain);
   divTopNav.appendChild(divVdo);
+  divTopNav.appendChild(pdfDisp);
   divTopNav.appendChild(divPlayList);
   // Main area
   divMain.appendChild(divMainContainer_01);  // to display div side by side
@@ -316,14 +298,13 @@ function arrangePlayGround() {
   divPlayButtons.appendChild(rowCanvas);
   divAudioPanel.appendChild(divPlayButtons);
   divAudioPanel.appendChild(divRunMenu);
-  divAudioPanel.appendChild(audioControls);
+  divAudioPanel.appendChild(divAudioControls);
   divPlayButtons.appendChild(imgPlayBtn);
   divPlayButtons.appendChild(imgStopBtn);
   divPlayButtons.appendChild(audioIcon);
   divPlayButtons.appendChild(imgKillBtn);
 
   // volume gain time-seek
-  audioControls.appendChild(audioSlider);
   labelForAudioVolume.appendChild(audioVolume);
   labelForAudioGain.appendChild(audioGain);
   labelForTimeRuler.appendChild(timeRuler);
@@ -345,7 +326,8 @@ function arrangePlayGround() {
   labelForVdoScreen.appendChild(checkboxVdoScreen);
   divLabelForVdo.appendChild(labelForVdoScreen);
   divAudioLabelWrap.appendChild(divLabelForVdo);
-  audioControls.appendChild(divAudioLabelWrap);
+  divAudioControls.appendChild(divMediaTime);
+  divAudioControls.appendChild(divAudioLabelWrap);
 }
 /**
  * Reused at every instance creation of Playlist class.
@@ -358,21 +340,14 @@ function createBtnNextPrev() {
   prevBtn.src = "/static/images/playlistBooster-btn-playBackward.svg";
 
   prevBtn.setAttribute("id", "prevBtn");
-  prevBtn.setAttribute("width", "60px");
-  prevBtn.setAttribute("heigth", "60px");
-  prevBtn.style.padding = "5px";
-  prevBtn.style.marginBottom = "3px";
-  prevBtn.style.verticalAlign = "bottom";
-  prevBtn.style.cursor = "pointer";
+  prevBtn.style.marginLeft = "0px";
+  prevBtn.classList.add("audioImages");
   prevBtn.classList.add("imgTransform");
 
   nextBtn.setAttribute("id", "nextBtn");
-  nextBtn.setAttribute("width", "60px");
-  nextBtn.setAttribute("heigth", "60px");
-  nextBtn.style.padding = "5px";
-  nextBtn.style.marginBottom = "3px";
-  nextBtn.style.verticalAlign = "bottom";
-  nextBtn.style.cursor = "pointer";
+  nextBtn.style.marginLeft = "5px";
+  nextBtn.style.marginRight = "5px";
+  nextBtn.classList.add("audioImages");
   nextBtn.classList.add("imgTransform");
 
   // insert behind the stop button

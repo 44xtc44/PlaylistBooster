@@ -7,13 +7,7 @@ html {
   -webkit-text-size-adjust: none;
 }
 :root {
-    --background-color: #dfdce3;
-    --hr-color: #eee;
-    --border-color: #fff;
-    --customTxtColor: black;
-}
-symbol {
-  display: none;
+  --background-color: #dfdce3;
 }
 body {
 /* measured by getBodyColor() */
@@ -26,47 +20,30 @@ video {
   height:auto;
   max-height:100%
 }
-
 .video-content {
   height:100vh;
 }
-#divTopNav {
-  position:relative;
-  height: 16px;
-  z-index:10000;
-  box-shadow:6px 6px 12px rgba(0,0,0,0.25);
+.pdfobject-container { 
+  height: 500px;
 }
-.labelAudioSlider {
-  position: relative;
+.pdfobject { 
+  border: 1px solid #666; 
+}
+#divPlayButtons {
   display: block;
-  text-align: right;
-  margin-bottom: 5px;
-}
-#divAudioLabelWrap {
-  width: 300px;
+  color: black;
+  background-color: #f7b733;
 }
 #divRunMenu {
   display: none;
-  width: 100%;
   min-height: 50px;
-  background-color:rgba(252, 74, 26, 1);
-  border: 2px solid rgba(255,255,255,0.1);
-  box-shadow:30px 30px 35px rgba(0,0,0,0.25);
-  color: lightyellow;
-}
-#wrapAboutMenu {
-  display: none;
-  text-align: left;
-  padding-left: 5px;
   width: 100%;
   background-color:rgba(252, 74, 26, 1);
   border: 2px solid rgba(255,255,255,0.1);
   box-shadow:30px 30px 35px rgba(0,0,0,0.25);
-  z-index: 10000;
   color: lightyellow;
 }
-
-#audioControls {
+#divAudioControls {
   display:none;
   width: 100%;
   background-color:rgba(252, 74, 26, 1);
@@ -74,29 +51,14 @@ video {
   box-shadow:30px 30px 35px rgba(0,0,0,0.25);
   color: lightyellow;
 }
-#divPlayButtons {
-  display: block;
-  color: black;
-  background-color: #f7b733;
-  min-height: 44px;
+.audioImages {
+  width: 34px;
+  height: 34px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  vertical-align: bottom;
+  cursor: pointer;
 }
-#divAudioControlsDetail {
-  position: relative;
-  left: 20px;
-  top: 0px;
-}
-#labelForShuffle {
-  color: lightyellow;
-  text-align:right;
-}
-#labelForVdoScreen {
-  text-align:right;
-}
-#audioSlider {
-  bottom:0px;
-  left:0px;
-}
-
 .cursorP {
   cursor: pointer;
 }
@@ -118,5 +80,5 @@ video {
   box-shadow: 6px 6px 12px rgba(0,0,0,0.5); 
 }
 .imgTransform:hover {
- transform: scale(1.2);
+ transform: scale(1.1);
 }

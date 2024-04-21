@@ -14,4 +14,6 @@ const allowedFileContent = [
     ".wbem, audio/webm, video/webm, video/WEBM",
     "video/x-matroska",
     ".ogg, .spx, audio/ogg",
+    // other media; a spanish course has pdf and audio
+    ".pdf, application/pdf"
 ]

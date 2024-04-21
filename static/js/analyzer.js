@@ -14,7 +14,7 @@ function drawAnalyzer(opt) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.lineWidth = 2.0;
+  ctx.lineWidth = 4.0;
   ctx.fillStyle = '#0f4757';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.strokeStyle = '#f7b733';

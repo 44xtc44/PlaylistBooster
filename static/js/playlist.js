@@ -1,6 +1,7 @@
 // playlist.js
 "use strict";
 
+var refreshIntervalId;  // setinterval killer
 /**
  * Plays local media files.
  * Can move through the playlist, back and forth.
@@ -9,6 +10,7 @@ class PlayList {
 
   constructor() {
     this.divPlayList = document.getElementById('divPlayList');
+    this.divMediaTime = document.getElementById('divMediaTime');
     this.checkboxShuffle = document.getElementById("checkboxShuffle");
     this.checkboxVdoScreen = document.getElementById("checkboxVdoScreen");
     this.checkboxPlaybackRateOne = document.getElementById("plbr_1_0");
@@ -20,6 +22,8 @@ class PlayList {
     this.audioIcon = document.getElementById("audioIcon");
 
     this.timeLeftShow = false;  // show current time or remaining time
+    this.load = undefined;
+    this.loadedFileName = undefined;
 
     this.playListMember = [];  // Get the file objects here.
     this.trackNumber = 0;
@@ -35,16 +39,17 @@ class PlayList {
     // DOM
     video.src = "";
     this.divPlayList.style.display = "block";
-    divMain.style.display = "none";  // help info
+    divMain.style.display = "none";  // help, info
     rowCanvas.style.display = "block";  // analyzer
     try {
       nextBtn.remove();  // Get rid of evt listener on btn. 
       prevBtn.remove();
-    } catch (error) {/* first call */ }
+    } catch (error) {/* first call */}
     createBtnNextPrev();
     this.nextBtn = document.getElementById("nextBtn");
     this.prevBtn = document.getElementById("prevBtn");
     showDivRunMenu.toggle()
+    clearInterval(refreshIntervalId);
   }
   create() {
     // Entry point.
@@ -56,41 +61,73 @@ class PlayList {
     this.drawButtons();
     this.addListenerButtons();  // Btn prev, next are recreated at each instance call.
     this.trackCount = this.playListMember.length;
+    refreshIntervalId = setInterval(() => { this.mediaTimeShow() }, 1000);
   }
   playLocalMedia() {
-    let self = this;
     timeRuler.value = 0;
-    self.checkboxPlaybackRateOne.checked = true; 
+    this.checkboxPlaybackRateOne.checked = true; 
     this.prettifyDisplayRow();
+    pdfDisp.data = "";  // spanish course has a pdf document
 
-    video.src = URL.createObjectURL(self.playListMember[self.trackNumber]);
+    this.load = this.playListMember[this.trackNumber];
+    this.loadedFileName = this.load.name.toLowerCase();
+    video.src = URL.createObjectURL(this.load);
     video.onended = () => {
       //change color of played filename before removal
-      self.markPlayedFile(self.playListMember[self.trackNumber].name);
-      self.trackNumber++;
-      if (self.trackNumber < self.playListMember.length) {
-        self.playLocalMedia();  // fun recursion
+      this.markPlayedFile(this.playListMember[this.trackNumber].name);
+      this.trackNumber++;
+      if (this.trackNumber < this.playListMember.length) {
+        this.playLocalMedia();  // fun recursion
       } else {
         return;
       }
     }
     video.onerror = (error) => {
-      console.log("playLocalMedia error->", error);
+      // should we load next media or try display this one?
+      let fileExt = "";
+      fileExt = this.loadedFileName.split('.').pop();
+      if(fileExt === "pdf") {
+        if(navigator.pdfViewerEnabled) {
+          pdfDisp.data = URL.createObjectURL(this.load);
+        }
+      }else {
+        console.log("playLocalMedia error->", error);
+      }
     }
   }
   prettifyDisplayRow() {
-    let self = this;  // bind() thingy
-    let showText = self.playListMember[self.trackNumber].name;
+    let showText = this.playListMember[this.trackNumber].name;
     // each <track name> is shown on its own child div, this div has the div.id attribute set as <track name> to be unique
-    let curTitleName = document.getElementById(self.playListMember[self.trackNumber].name);
+    let curTitleName = document.getElementById(this.playListMember[this.trackNumber].name);
     curTitleName.innerText = showText;
     curTitleName.style.background = "#fc4a1a"  // hex!
-    curTitleName.style.color = "lightyellow";
+    curTitleName.style.color = "#dfdce3";
     curTitleName.style.padding = "4px";
     curTitleName.style.fontSize = "130%";
     curTitleName.style.fontWeight = "600";
     curTitleName.style.fontStyle = "oblique";
     curTitleName.style.textShadow = "1px 1px 2px tomato";
+  }
+  mediaTimeShow() {
+    let mediaCount = this.trackCount + " files | "
+    if(! video.duration) {
+      this.divMediaTime.innerText = mediaCount;
+      return;
+    }
+    let seconds = Math.floor(video.duration - video.currentTime)
+    let hours = Math.floor(video.duration / 3600);
+    let minutes = Math.floor(seconds / 60);
+    let extraSeconds = seconds % 60;
+    try {
+      if(isNaN(hours) || isNaN(minutes) || isNaN(extraSeconds)) throw new Error("Video element can not read time.");
+    } catch (error) {
+      this.divMediaTime.innerText = mediaCount;
+      return;
+    }
+    if(hours.toString().length < 2) hours = "0".concat(hours);
+    if(minutes.toString().length < 2) minutes = "0".concat(minutes);
+    if(extraSeconds.toString().length < 2) extraSeconds = "0".concat(extraSeconds);
+    this.divMediaTime.innerText = mediaCount + hours + ":" + minutes + ":" + extraSeconds;
   }
   removeElementFromParent(elementId) {
     try {
@@ -110,7 +147,7 @@ class PlayList {
       return aObj.finished;
     };
     playedRemove()
-      .then((finished) => { if (finished) playedFile.remove() })
+      .then((finished) => { if (finished || ! finished) playedFile.remove() })
       .catch((error) => {
         console.error(error);
         playedFile.remove();
@@ -198,52 +235,51 @@ class PlayList {
   /**
    * Problem to remove evt listener.
    * If listener is pointing to a class method, 
-   * 'this' is not available (no instace property fields access).
+   * 'this' is not available to the inner fun (no instace property fields access).
    * If listener points to a function in a var,
    * listener can not be removed with x.removeEventlistener()
-   * Remove the DOM elements to get rid of the listener.
+   * Remove the DOM elements 'nextBtn' and 'prevBtn' to get rid of the listener.
    */
   addListenerButtons() {
-    let self = this;
-    let parent = self.divPlayList;
+    let parent = this.divPlayList;
     let id = "";
     let innerText = "";
-    self.playBtn.addEventListener("click", () => {
+    this.playBtn.addEventListener("click", () => {
       video.play();
     });
-    self.pauseBtn.addEventListener("click", () => {
+    this.pauseBtn.addEventListener("click", () => {
       video.pause();
     });
-    self.nextBtn.addEventListener("click", () => {
+    this.nextBtn.addEventListener("click", () => {
       /*
         The list rebuilds on every click.
       */
-        if (self.trackNumber >= (self.playListMember.length - 1)) {
+        if (this.trackNumber >= (this.playListMember.length - 1)) {
           return;
         } else {
           this.removeDiv({ id: parent });
           // redraw the list with remaining titles, first header then titles in loop
-          for (let i = self.trackNumber; i < self.playListMember.length; ++i) {
-            id = self.playListMember[i].name;
-            innerText = self.playListMember[i].name;
-            self.appendDiv({ parent: parent, id: id, innerText: innerText });
+          for (let i = this.trackNumber; i < this.playListMember.length; ++i) {
+            id = this.playListMember[i].name;
+            innerText = this.playListMember[i].name;
+            this.appendDiv({ parent: parent, id: id, innerText: innerText });
           }
-          self.trackNumber++;
-          self.playLocalMedia();
+          this.trackNumber++;
+          this.playLocalMedia();
         }
     });
-    self.prevBtn.addEventListener("click", () => {
-      if (self.trackNumber === 0) { return; }
-      if ((self.trackNumber <= self.playListMember.length) && (self.trackNumber > 0)) {
+    this.prevBtn.addEventListener("click", () => {
+      if (this.trackNumber === 0) { return; }
+      if ((this.trackNumber <= this.playListMember.length) && (this.trackNumber > 0)) {
         this.removeDiv({ id: parent });
         // go back one index num from current and draw original partial list from there
-        for (let i = (self.trackNumber - 1); i < self.playListMember.length; ++i) {
-          id = self.playListMember[i].name;
-          innerText = self.playListMember[i].name;
-          self.appendDiv({ parent: parent, id: id, innerText: innerText });
+        for (let i = (this.trackNumber - 1); i < this.playListMember.length; ++i) {
+          id = this.playListMember[i].name;
+          innerText = this.playListMember[i].name;
+          this.appendDiv({ parent: parent, id: id, innerText: innerText });
         }
-        self.trackNumber--;
-        self.playLocalMedia();
+        this.trackNumber--;
+        this.playLocalMedia();
       }
     }); 
   }

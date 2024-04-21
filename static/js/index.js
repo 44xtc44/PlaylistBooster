@@ -2,11 +2,9 @@
 "use strict";
 /**
  * Browser extension for PC and Android
- * $ apk devices -l
- * $ web-ext run --target=firefox-android --android-device xxx --firefox-apk org.mozilla.fenix
 * @author René Horn
 * @author www.github.com/44xtc44
-* @version 1.1
+* @version 1.3
 * @since 1.0
 * @see license {Apache 2.0 License (2024), René Horn}
 */
@@ -22,6 +20,10 @@ const plbr_1_5 = document.createElement("input");
 const plbr_2_0 = document.createElement("input");
 const checkboxVdoScreen = document.createElement("input");
 
+// image and pdf stuff to show dynamically loaded between sound and video; el cheapo mp3 player
+const pdfDisp = document.createElement("object");
+const imgDisp = document.createElement("img"); 
+
 window.showAudioControls = null;
 window.showDivRunMenu = null;
 
@@ -36,6 +38,7 @@ var playList = undefined;  // instance of class PlayList
 
 window.addEventListener('load', () => {
   createAudio();
+  createOtherMedia();
   createPlaybackRadios();
   createPlayGround();
   arrangePlayGround();
@@ -43,7 +46,7 @@ window.addEventListener('load', () => {
   animationMain();
   checkboxVdoScreen.addEventListener("input", setCheckboxVdoScreen);
 
-  showAudioControls = new IsShown("audioControls");
+  showAudioControls = new IsShown("divAudioControls");
   showDivRunMenu = new IsShown("divRunMenu");
 });
 
@@ -75,6 +78,13 @@ function createAudio() {
   audioVolume.addEventListener("input", setAudioVolume);
   audioGain.addEventListener("input", setAudioGain);
 }
+function createOtherMedia() {
+  // images and pdf
+  pdfDisp.setAttribute("id", "pdfDisp"); 
+  pdfDisp.setAttribute("type", "application/pdf");  // set data attribute with url onLoad
+  pdfDisp.setAttribute("width", "100%");
+  pdfDisp.setAttribute("height", "800px");
+}
 function createPlaybackRadios() {
   plbr_0_5.setAttribute("name", "plbr");
   plbr_0_5.id = "plbr_0_5";
@@ -99,10 +109,12 @@ function createPlaybackRadios() {
   plbr_2_0.addEventListener("input", setPlavbackRateTwo);
 }
 function getTimeSetRuler() {
+  if(! video.duration) return;
   timeRuler.value = (video.currentTime * 100) / video.duration;
 }
 function setTimeRuler() {
   // user change range value
+  if(! video.duration) return;
   video.currentTime = (video.duration / 100) * timeRuler.value;
 }
 function setAudioVolume() {
