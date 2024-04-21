@@ -4,7 +4,6 @@
    width="200"
    height="100"
    version="1.1"
-   viewBox="0 0 100 100"
    id="playlistBooster-btn-playForward"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"><defs
@@ -12,7 +11,7 @@
  
 <g
    id="g1"
-   transform="matrix(38.44766,0,0,38.44766,-978.9341,-1695.959)"
+   transform="matrix(38.44766,0,0,38.44766,-928.9341,-1695.959)"
    style="stroke-width:0.0260092">
   
  <g
