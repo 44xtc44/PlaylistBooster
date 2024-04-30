@@ -4,7 +4,7 @@
  * Browser extension for PC and Android
 * @author René Horn
 * @author www.github.com/44xtc44
-* @version 1.3
+* @version 1.4
 * @since 1.0
 * @see license {Apache 2.0 License (2024), René Horn}
 */

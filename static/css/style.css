@@ -1,19 +1,15 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway);
 * {
-  font-family: "Raleway";
   box-sizing: border-box;
 }
 html {
-  -webkit-text-size-adjust: none;
+  -webkit-text-size-adjust: none;  box-sizing: border-box;
 }
 :root {
   --background-color: #dfdce3;
 }
 body {
-/* measured by getBodyColor() */
-  color: magenta;
   background: var(--background-color);
-  font-family: Raleway, roboto, arial, sans-serif;
+  font-family: Raleway;
 }
 video {
   width:100%;
@@ -36,6 +32,7 @@ video {
 }
 #divRunMenu {
   display: none;
+  box-sizing: border-box;
   min-height: 50px;
   width: 100%;
   background-color:rgba(252, 74, 26, 1);
@@ -45,6 +42,7 @@ video {
 }
 #divAudioControls {
   display:none;
+  box-sizing: border-box;
   width: 100%;
   background-color:rgba(252, 74, 26, 1);
   border: 2px solid rgba(255,255,255,0.1);
