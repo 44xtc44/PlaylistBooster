@@ -28,7 +28,12 @@ video {
 #divPlayButtons {
   display: block;
   color: black;
+  /* background for buttons, can play with */
+  background-image: radial-gradient(Cornsilk 0%, transparent 40%),
+  radial-gradient(Cornsilk 0%, transparent 40%);
   background-color: #f7b733;
+  background-position: top left, 50px 50px;
+  background-size: 10px 10px;
 }
 #divRunMenu {
   display: none;
