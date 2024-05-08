@@ -24,18 +24,3 @@ class IsShown {
     }
   }
 }
-
-/**
- * Get the active current day or night mode.
- * Useful with dark mode.
- * @returns {boolean} true if dark background color (grey night color)
- */
-function getBodyColor() {
-  let bodyStyle = window.getComputedStyle(document.body, null);
-  let backgroundColor = bodyStyle.backgroundColor;
-  let darkBody;
-  if (backgroundColor === 'rgb(26, 26, 26)') {
-    darkBody = true;
-  } else { darkBody = false; }
-  return darkBody;
-}
