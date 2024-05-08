@@ -24,6 +24,7 @@ class PlayList {
     this.timeLeftShow = false;  // show current time or remaining time
     this.load = undefined;
     this.loadedFileName = undefined;
+    this.divShowFileName = "divShowFileName";
 
     this.playListMember = [];  // Get the file objects here.
     this.trackNumber = 0;
@@ -44,7 +45,7 @@ class PlayList {
     try {
       nextBtn.remove();  // Get rid of evt listener on btn. 
       prevBtn.remove();
-    } catch (error) {/* first call */}
+    } catch (error) {/* first call */ }
     createBtnNextPrev();
     this.nextBtn = document.getElementById("nextBtn");
     this.prevBtn = document.getElementById("prevBtn");
@@ -57,15 +58,16 @@ class PlayList {
     this.shufflePlayList();
     this.createHtmlDisplay();
     this.suppressVideoDisplay();
-    this.playLocalMedia();
+    this.playLocalMedia();  // immediately start play
     this.drawButtons();
     this.addListenerButtons();  // Btn prev, next are recreated at each instance call.
+    this.addListenerPlayListItems();  // selection; dbl click, tap media in list directly
     this.trackCount = this.playListMember.length;
     refreshIntervalId = setInterval(() => { this.mediaTimeShow() }, 1000);
   }
   playLocalMedia() {
     timeRuler.value = 0;
-    this.checkboxPlaybackRateOne.checked = true; 
+    this.checkboxPlaybackRateOne.checked = true;
     this.prettifyDisplayRow();
     pdfDisp.data = "";  // spanish course has a pdf document
 
@@ -74,7 +76,10 @@ class PlayList {
     video.src = URL.createObjectURL(this.load);
     video.onended = () => {
       //change color of played filename before removal
-      this.markPlayedFile(this.playListMember[this.trackNumber].name);
+      let name = this.playListMember[this.trackNumber].name;
+      let id = name.concat("::", this.trackNumber);
+      this.markPlayedFile(id);
+
       this.trackNumber++;
       if (this.trackNumber < this.playListMember.length) {
         this.playLocalMedia();  // fun recursion
@@ -86,11 +91,11 @@ class PlayList {
       // should we load next media or try display this one?
       let fileExt = "";
       fileExt = this.loadedFileName.split('.').pop();
-      if(fileExt === "pdf") {
-        if(navigator.pdfViewerEnabled) {
+      if (fileExt === "pdf") {
+        if (navigator.pdfViewerEnabled) {
           pdfDisp.data = URL.createObjectURL(this.load);
         }
-      }else {
+      } else {
         console.log("playLocalMedia error->", error);
       }
     }
@@ -98,7 +103,7 @@ class PlayList {
   prettifyDisplayRow() {
     let showText = this.playListMember[this.trackNumber].name;
     // each <track name> is shown on its own child div, this div has the div.id attribute set as <track name> to be unique
-    let curTitleName = document.getElementById(this.playListMember[this.trackNumber].name);
+    let curTitleName = document.getElementById(this.playListMember[this.trackNumber].name.concat("::", this.trackNumber));
     curTitleName.innerText = showText;
     curTitleName.style.background = "#fc4a1a"  // hex!
     curTitleName.style.color = "#dfdce3";
@@ -110,7 +115,7 @@ class PlayList {
   }
   mediaTimeShow() {
     let mediaCount = this.trackCount + " files | "
-    if(! video.duration) {
+    if (!video.duration) {
       this.divMediaTime.innerText = mediaCount;
       return;
     }
@@ -119,14 +124,14 @@ class PlayList {
     let minutes = Math.floor(seconds / 60);
     let extraSeconds = seconds % 60;
     try {
-      if(isNaN(hours) || isNaN(minutes) || isNaN(extraSeconds)) throw new Error("Video element can not read time.");
+      if (isNaN(hours) || isNaN(minutes) || isNaN(extraSeconds)) throw new Error("Video element can not read time.");
     } catch (error) {
       this.divMediaTime.innerText = mediaCount;
       return;
     }
-    if(hours.toString().length < 2) hours = "0".concat(hours);
-    if(minutes.toString().length < 2) minutes = "0".concat(minutes);
-    if(extraSeconds.toString().length < 2) extraSeconds = "0".concat(extraSeconds);
+    if (hours.toString().length < 2) hours = "0".concat(hours);
+    if (minutes.toString().length < 2) minutes = "0".concat(minutes);
+    if (extraSeconds.toString().length < 2) extraSeconds = "0".concat(extraSeconds);
     this.divMediaTime.innerText = mediaCount + hours + ":" + minutes + ":" + extraSeconds;
   }
   removeElementFromParent(elementId) {
@@ -134,9 +139,11 @@ class PlayList {
       elementId.parentNode.removeChild(elementId);
     } catch (error) { }
   }
-  markPlayedFile(fName) {
+  markPlayedFile(divId) {
     /* Mark played files and del div from list to generate some action. */
-    let playedFile = document.getElementById(fName);
+    let playedFile = document.getElementById(divId);
+    if (playedFile === undefined || playedFile === null) return;
+
     let playedRemove = () => {
       /* 
       * MDN hint: 
@@ -147,7 +154,7 @@ class PlayList {
       return aObj.finished;
     };
     playedRemove()
-      .then((finished) => { if (finished || ! finished) playedFile.remove() })
+      .then((finished) => { if (finished || !finished) playedFile.remove() })
       .catch((error) => {
         console.error(error);
         playedFile.remove();
@@ -160,15 +167,15 @@ class PlayList {
       return;
     }
     // regular
-    for (let i = 0; i < [...fileUpload.files].length; i++) {
-      this.playListMember.push([...fileUpload.files][i]);
+    for (let idx = 0; idx < [...fileUpload.files].length; idx++) {
+      this.playListMember.push([...fileUpload.files][idx]);
     }
   }
   shuffleArray(array) {
     if (array.length <= 2) return array;
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+    for (let idx = array.length - 1; idx > 0; idx--) {
+      let j = Math.floor(Math.random() * (idx + 1));
+      [array[idx], array[j]] = [array[j], array[idx]];  // swap two elem positions in array at once
     }
     return array;
   }
@@ -187,21 +194,23 @@ class PlayList {
     let parent = this.divPlayList;
     let id = "";
     let innerText = "";
+    let elemClass = this.divShowFileName
 
     this.removeDiv({ id: parent });  // old HTML display
 
     if (this.checkboxShuffle.checked) {
-      for (let i = this.trackNumber; i < this.playListMember.length; ++i) {
-        id = this.playListMember[i].name;
-        innerText = this.playListMember[i].name;
-        this.appendDiv({ parent: parent, id: id, innerText: innerText });
+      for (let idx = this.trackNumber; idx < this.playListMember.length; ++idx) {
+        id = this.playListMember[idx].name.concat("::", idx);  // split symbol ::
+        innerText = this.playListMember[idx].name;
+        this.appendDiv({ parent: parent, id: id, innerText: innerText, elemClass: elemClass });
       }
       return;
     }
     // regular
-    for (let i = 0; i < fileUpload.files.length; ++i) {
-      innerText = id = fileUpload.files[i]["name"];  // DOM needs unique id
-      this.appendDiv({ parent: parent, id: id, innerText: innerText });
+    for (let idx = 0; idx < fileUpload.files.length; ++idx) {
+      id = fileUpload.files[idx]["name"].concat("::", idx);
+      innerText = fileUpload.files[idx]["name"];
+      this.appendDiv({ parent: parent, id: id, innerText: innerText, elemClass: elemClass });
     }
   }
   appendDiv(opt) {
@@ -227,7 +236,7 @@ class PlayList {
   }
   drawButtons() {
     // not needed for network streams
-    if(this.nextBtn !== undefined && this.prevBtn !== undefined) {
+    if (this.nextBtn !== undefined && this.prevBtn !== undefined) {
       this.nextBtn.style.display = "inline-block";
       this.prevBtn.style.display = "inline-block";
     }
@@ -244,6 +253,8 @@ class PlayList {
     let parent = this.divPlayList;
     let id = "";
     let innerText = "";
+    let elemClass = this.divShowFileName;
+
     this.playBtn.addEventListener("click", () => {
       video.play();
     });
@@ -252,35 +263,63 @@ class PlayList {
     });
     this.nextBtn.addEventListener("click", () => {
       /*
-        The list rebuilds on every click.
+        The shown list rebuilds on every click.
       */
-        if (this.trackNumber >= (this.playListMember.length - 1)) {
-          return;
-        } else {
-          this.removeDiv({ id: parent });
-          // redraw the list with remaining titles, first header then titles in loop
-          for (let i = this.trackNumber; i < this.playListMember.length; ++i) {
-            id = this.playListMember[i].name;
-            innerText = this.playListMember[i].name;
-            this.appendDiv({ parent: parent, id: id, innerText: innerText });
-          }
-          this.trackNumber++;
-          this.playLocalMedia();
+      if (this.trackNumber >= (this.playListMember.length - 1)) {
+        return;
+      } else {
+        this.removeDiv({ id: parent });
+        // redraw the list with remaining titles, first header then titles in loop
+        for (let idx = this.trackNumber; idx < this.playListMember.length; ++idx) {
+          innerText = this.playListMember[idx].name;
+          id = innerText.concat("::", idx);
+          this.appendDiv({ parent: parent, id: id, innerText: innerText, elemClass: elemClass });
         }
+        this.addListenerPlayListItems();
+        this.trackNumber++;
+        this.playLocalMedia();
+      }
     });
     this.prevBtn.addEventListener("click", () => {
       if (this.trackNumber === 0) { return; }
       if ((this.trackNumber <= this.playListMember.length) && (this.trackNumber > 0)) {
         this.removeDiv({ id: parent });
         // go back one index num from current and draw original partial list from there
-        for (let i = (this.trackNumber - 1); i < this.playListMember.length; ++i) {
-          id = this.playListMember[i].name;
-          innerText = this.playListMember[i].name;
-          this.appendDiv({ parent: parent, id: id, innerText: innerText });
+        for (let idx = (this.trackNumber - 1); idx < this.playListMember.length; ++idx) {
+          innerText = this.playListMember[idx].name;
+          id = innerText.concat("::", idx);
+          this.appendDiv({ parent: parent, id: id, innerText: innerText, elemClass: elemClass });
         }
+        this.addListenerPlayListItems();
         this.trackNumber--;
         this.playLocalMedia();
       }
-    }); 
+    });
+  }
+  /**
+   * Double tap or click on a list item jumps and recreates
+   * the playlist from clicked list item index on.
+   * We call this method from executed listener again.
+   */
+  addListenerPlayListItems() {
+    let parent = this.divPlayList;
+    let elemClass = this.divShowFileName;
+    let divs = document.getElementsByClassName(this.divShowFileName);
+
+    for (let div of divs) {  // assign to each list element; NOT exec now
+
+      div.addEventListener("dblclick", () => {  // doubleclick, keep us able to scroll on mobile
+        this.removeDiv({ id: parent });
+        let trackNumber = div.id.split("::").pop();
+        for (let idx = trackNumber; idx < this.playListMember.length; ++idx) {
+          let innerText = this.playListMember[idx].name;
+          let id = innerText.concat("::", idx);
+          this.appendDiv({ parent: parent, id: id, innerText: innerText, elemClass: elemClass });
+        }
+        this.trackNumber = trackNumber;
+        this.addListenerPlayListItems();  // "remote" run on evt trigger
+        this.playLocalMedia();
+      });
+    }
   }
 }
