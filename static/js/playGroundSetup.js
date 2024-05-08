@@ -40,6 +40,7 @@ const divPlayListAnimation = document.createElement('div');
 // audio panel
 const divAudioPanel = document.createElement("div");
 const divPlayButtons = document.createElement("div");
+const divRowPlayButtons = document.createElement("div");  // set perspective 2D
 const imgPlayBtn = document.createElement("img");
 imgPlayBtn.src = "/static/images/playlistBooster-btn-play.svg";
 const imgStopBtn = document.createElement("img");
@@ -170,15 +171,19 @@ function createPlayGround() {
   labelForShuffle.innerText = "Shuffle";
   labelForShuffle.classList.add("cursorP");
   // audio panel
+  divAudioPanel.setAttribute("id", "divAudioPanel");
+  divPlayButtons.setAttribute("id", "divPlayButtons");
   rowCanvas.setAttribute("id", "rowCanvas");
   rowCanvas.style.position = "absolute";
   rowCanvas.style.marginLeft = "3px";
-  rowCanvas.classList.add("audioImages");
-  divAudioPanel.setAttribute("id", "divAudioPanel");
-  divPlayButtons.setAttribute("id", "divPlayButtons");
+  rowCanvas.style.width = "42px";
+  rowCanvas.style.height = "34px";
+  rowCanvas.style.marginTop = "3px";
+  rowCanvas.style.marginBottom = "2px";
+  rowCanvas.style.transform = "perspective(100px) rotateY(25deg)";
+  divRowPlayButtons.setAttribute("id", "divRowPlayButtons");
   imgPlayBtn.setAttribute("id", "imgPlayBtn");
   imgPlayBtn.style.marginLeft = "44px";
-  imgPlayBtn.style.verticalAlign = "bottom";
   imgPlayBtn.classList.add("audioImages");
   imgPlayBtn.classList.add("imgTransform");
   imgStopBtn.setAttribute("id", "imgStopBtn");
@@ -296,13 +301,14 @@ function arrangePlayGround() {
   divPlayListAnimation.appendChild(fileUpload);
   // audio panel
   divPlayButtons.appendChild(rowCanvas);
+  divPlayButtons.appendChild(divRowPlayButtons);
   divAudioPanel.appendChild(divPlayButtons);
   divAudioPanel.appendChild(divRunMenu);
   divAudioPanel.appendChild(divAudioControls);
-  divPlayButtons.appendChild(imgPlayBtn);
-  divPlayButtons.appendChild(imgStopBtn);
-  divPlayButtons.appendChild(audioIcon);
-  divPlayButtons.appendChild(imgKillBtn);
+  divRowPlayButtons.appendChild(imgPlayBtn);
+  divRowPlayButtons.appendChild(imgStopBtn);
+  divRowPlayButtons.appendChild(audioIcon);
+  divRowPlayButtons.appendChild(imgKillBtn);
 
   // volume gain time-seek
   labelForAudioVolume.appendChild(audioVolume);
