@@ -43,18 +43,20 @@ Open the PlaylistBooster manifest.json and then start the Add-on from the puzzle
 
 HowTo Android
 --------------
+Clone the repo. 
+
 Install 'web-ext' "https://extensionworkshop.com/documentation/develop/developing-extensions-for-firefox-for-android/".
 
-Install Android Studio latest.
+Install Android Studio latest and create a dummy project. The device manager is needed to run a Android Virtual Device (AVD).
 
-You then want to download the FireFox apk file and drag it onto the AVM. 
+You then want to download the FireFox apk file and drag it onto the AVD. 
 Search "Firefox Nightly for Developers". If you find 'APKmirror' save, go there. Else use the registration
-process to enable PlayStore to pull FireFox Nightly, into every AVM.
+process to enable PlayStore to pull FireFox Nightly, into every AVD.
 
 .. note::
     Deinstall FireFox 'regular' version, if any.
 
-Open a terminal in the root of the repo clone, to load the Add-on into the AVM via USB.
+Open a terminal in the root of the repo clone, to load the Add-on into the AVD via USB.
 
 .. code-block:: console
 
@@ -64,9 +66,9 @@ Open a terminal in the root of the repo clone, to load the Add-on into the AVM v
 
     @PlaylistBooster$ web-ext run --target=firefox-android --android-device emulator-5554 --firefox-apk org.mozilla.fenix
 
-The AVM and FireFox Nightly must be USB enabled (Dev mode) then. 
+The AVD and FireFox Nightly must be USB enabled (Dev mode) then. 
 
-Drag some media files into 'Device Explorer' in 'Android Studio'. Use 'mnt/sdcard/Music', to see it in user view on AVM.
+Drag some media files into 'Device Explorer' in 'Android Studio'. Use 'mnt/sdcard/Music', to see it in user view on AVD.
 
 .. image:: ./start.png
             :alt: start screen
