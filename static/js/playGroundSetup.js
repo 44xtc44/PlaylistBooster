@@ -117,6 +117,7 @@ function createPlayGround() {
   divMainText_01_wrap.innerHTML = "<ul>"
     + "<li>Select files</li>"
     + "<li>Shuffle ON/OFF</li>"
+    + "<li>May double tap if loaded</li>"
     + "</ul>";
   divMainText_01_wrap.addEventListener('click', () => {
     showDivRunMenu.toggle();
