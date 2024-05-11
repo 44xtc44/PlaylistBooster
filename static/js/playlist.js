@@ -66,6 +66,7 @@ class PlayList {
     refreshIntervalId = setInterval(() => { this.mediaTimeShow() }, 1000);
   }
   playLocalMedia() {
+    URL.revokeObjectURL(video.src);  // why, stream, blob buffer[], tee; https://javascript.info/blob 
     timeRuler.value = 0;
     this.checkboxPlaybackRateOne.checked = true;
     this.prettifyDisplayRow();
@@ -73,6 +74,7 @@ class PlayList {
 
     this.load = this.playListMember[this.trackNumber];
     this.loadedFileName = this.load.name.toLowerCase();
+    
     video.src = URL.createObjectURL(this.load);
     video.onended = () => {
       //change color of played filename before removal
