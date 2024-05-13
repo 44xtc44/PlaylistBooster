@@ -9,6 +9,8 @@ Runs on FireFox.
 * Gain booster, Time-seek and playback rate options 
 * pdf support
 
+Mozilla Add-on: https://addons.mozilla.org/en-US/firefox/addon/playlistbooster/
+
 # Why
 
 Working with multi-file upload objects, an old school mp3 player appeared in my mind's eye. 
