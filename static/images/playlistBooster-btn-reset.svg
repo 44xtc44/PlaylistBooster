@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.0"
+   width="100px"
+   height="100px"
+   id="playlistBooster-btn-reset"
+   sodipodi:docname="playlistBooster-btn-reset.svg"
+   xml:space="preserve"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     showguides="true"
+     inkscape:zoom="3.4448719"
+     inkscape:cx="104.21287"
+     inkscape:cy="66.330477"
+     inkscape:current-layer="g4" /><defs
+     id="defs2" /><g
+     id="g4"
+     transform="translate(-0.200226,-1.4016599)"><path
+       id="path4"
+       style="opacity:1;fill-rule:evenodd;stroke-width:0.999998;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+       d="M 50.200226 3.2844724 A 48.11668 48.11668 0 0 0 2.0830385 51.40166 A 48.11668 48.11668 0 0 0 50.200226 99.518847 A 48.11668 48.11668 0 0 0 98.317414 51.40166 A 48.11668 48.11668 0 0 0 50.200226 3.2844724 z M 23.155304 24.095019 L 28.340851 29.282519 L 28.340851 29.223926 L 30.311554 31.253222 L 31.417023 32.358691 C 36.36892 27.468112 43.13065 24.559663 50.381867 24.540332 C 65.340367 24.539963 77.467599 36.665813 77.467804 51.624316 C 77.467598 66.582817 65.340367 78.708669 50.381867 78.708301 C 41.572753 78.684821 33.486209 74.399319 28.489289 67.473926 L 34.344757 61.622363 C 37.789401 67.162612 43.847869 70.542751 50.381867 70.555957 C 60.837505 70.556117 69.313667 62.079954 69.313507 51.624316 C 69.313667 41.16868 60.837495 32.692515 50.381867 32.692676 C 45.384617 32.702776 40.665407 34.683738 37.180695 38.093066 L 34.29007 35.233691 L 34.549835 35.493457 L 40.87796 41.759082 L 40.813507 41.759082 L 45.424835 46.372363 L 22.932648 46.397754 L 23.155304 24.095019 z " /></g></svg>
