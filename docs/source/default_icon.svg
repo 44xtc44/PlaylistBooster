@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="100"
+   height="100"
+   version="1.1"
+   viewBox="0 0 100 100"
+   xml:space="preserve"
+   id="svg22192"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><animateTransform
+     attributeName="transform"
+     attributeType="XML"
+     dur="10s"
+     from="0,0,0"
+     repeatCount="indefinite"
+     to="359,0,0"
+     type="rotate" /><defs
+     id="defs22188"><linearGradient
+       id="linearGradient19700"
+       x1="18.733"
+       x2="77.041634"
+       y1="84.084"
+       y2="12.977389"
+       gradientTransform="translate(-.051407 -.22692)"
+       gradientUnits="userSpaceOnUse"><stop
+         style="stop-color:#40e0d0"
+         offset="0"
+         id="stop22183" /><stop
+         style="stop-color:#ffffe0"
+         offset="1"
+         id="stop22185" /></linearGradient></defs><circle
+     id="path19189"
+     cx="50"
+     cy="50"
+     r="46"
+     style="fill-rule:evenodd;fill:url(#linearGradient19700);paint-order:stroke fill markers;stroke-dashoffset:20.001;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5" /><g
+     id="g4"
+     transform="matrix(3.6849275,0,0,3.7060599,-25.117539,-109.64459)"
+     style="stroke-width:0.270601"><text
+       xml:space="preserve"
+       style="font-size:15.5343px;font-family:Bungee;-inkscape-font-specification:'Bungee, Normal';fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0541202;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+       x="9.2458467"
+       y="48.671402"
+       id="text3"
+       transform="scale(1.0000562,0.99994385)"><tspan
+         id="tspan3"
+         x="9.2458467"
+         y="48.671402"
+         style="stroke-width:0.0541202">PB</tspan></text></g></svg>
