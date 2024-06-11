@@ -1,9 +1,13 @@
 // analyzer.js
 "use strict";
 
-function drawAnalyzer(opt) {
-  // simple lines dancing
-
+/**
+ * Simple lines dB dancing animation.
+ * @param {{*}} opt dictionary 
+ * @example 
+ * drawAnalyzer({ canvasId: "rowCanvas" })
+ */
+function drawAnalyzer(opt = {}) {
   analyserNodeTwo.fftSize = 2048;  // node two
   const bufferLength = analyserNodeTwo.frequencyBinCount;
   const dataArray = new Uint8Array(bufferLength);

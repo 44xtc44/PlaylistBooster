@@ -4,11 +4,11 @@
 var animationFrameCount = 0;
 
 /**
- * All animations will get called here.
+ * Any animation called here.
  * Runs on Browser refresh rate.
  */
 function animationMain() {
-  drawAnalyzer({ canvasId: "rowCanvas" })
+  drawAnalyzer({ canvasId: "rowCanvas" });
   /* requestAnimationFrame; only one in an app. */
   animationFrameCount = requestAnimationFrame(animationMain);
 }

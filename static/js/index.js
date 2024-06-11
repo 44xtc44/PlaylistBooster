@@ -1,62 +1,87 @@
 // index.js
+
+/* Refactor: growing module split in fun per feature button, 
+ * then folders for features under /static/js.
+*/
+
+/* Documentation setup with Python sphinx-js package
+ *
+ * https://test-builds.readthedocs.io/en/jsdoc-autoapi/
+ * https://pypi.org/project/sphinx-js/
+ */
 "use strict";
 /**
  * Browser extension for PC and Android
-* @author René Horn
-* @author www.github.com/44xtc44
-* @version 1.4
-* @since 1.0
-* @see license {Apache 2.0 License (2024), René Horn}
-*/
+ * @author 'www.github.com/44xtc44'
+ * @version 1.5
+ * @since 1.0
+ * @see license {Apache 2.0 License (2024), René Horn}
+ *
+ * Bug: FF Android looses file handle after tab was in background.
+ *   See if it is gone after going React. PlayList Class to fun, state in shadow DOM.
+ */
+
+/**
+ *
+ */
+function docuPlaceholder() {
+  // Able to write comments into sphinx module.
+}
+var module = module || {}; // if module export for test, prevents console error in browser
 
 const root = document.getElementById("root");
 const video = document.createElement("video");
-const timeRuler = document.createElement("input");  // slider
-const audioVolume = document.createElement("input");  // slider
-const audioGain = document.createElement("input");  // slider show only for local sound, network is blocked by CORS
-const plbr_0_5 = document.createElement("input");  // checkbox playbackRate
-const plbr_1_0 = document.createElement("input");
-const plbr_1_5 = document.createElement("input");  
-const plbr_2_0 = document.createElement("input");
-const checkboxVdoScreen = document.createElement("input");
+const timeRuler = document.createElement("input"); // slider
+const audioVolume = document.createElement("input"); // slider
+const audioGain = document.createElement("input"); // slider show only for local sound, network is blocked by CORS
+const playbackRate__select = document.createElement("select");
 
 // image and pdf stuff to show dynamically loaded between sound and video; el cheapo mp3 player
 const pdfDisp = document.createElement("object");
-const imgDisp = document.createElement("img"); 
-
-window.showAudioControls = null;
-window.showDivRunMenu = null;
 
 const audioContext = new AudioContext();
-var audioSource = null;
-var videoSource = null;
-const gainNode = audioContext.createGain();
 const analyserNodeOne = audioContext.createAnalyser();
-const analyserNodeTwo = audioContext.createAnalyser();  // second analyzer show, other fft size
+const analyserNodeTwo = audioContext.createAnalyser(); // second analyzer show, other fft size
+var audioSource = audioContext.createMediaElementSource(video);
+var gainNode = null;
 
-var playList = undefined;  // instance of class PlayList
+var playList = undefined; // instance of class PlayList
 
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
   createAudio();
   createOtherMedia();
-  createPlaybackRadios();
+  createPlayRateSelect();
   createPlayGround();
-  arrangePlayGround();
-  connectAnalyzer();
-  animationMain();
-  checkboxVdoScreen.addEventListener("input", setCheckboxVdoScreen);
 
-  showAudioControls = new IsShown("divAudioControls");
-  showDivRunMenu = new IsShown("divRunMenu");
+  arrangePlayGround();
+  createVisualElemListener();
+  createAudioStatusLeds();
+  connectAudioSource();
+  initEqualizer();
+  equalizerUI();
+  initIndexDb()
+    .then(() => restoreAppState())
+    .catch((error) => {
+      appendDiv({
+        parent: document.getElementById("divDbContainerContent"),
+        childId: "initIndexDb.catch".concat(Date.now() + Math.random()),
+        innerText: "restore app state fail: " + error,
+        elemClass: "msgDivs",
+      });
+    });
+  animationMain();
+  equalizerUI();
 });
 
 function createAudio() {
-  // video element plays audio too
+  // video element plays audio too, 'crossorigin' anonymous attr for net
   video.setAttribute("id", "videoWithControls");
+  video.setAttribute("crossorigin", "anonymous");
+  video.setAttribute("preload", "metadata");
   video.setAttribute("autoplay", "");
   video.setAttribute("controls", "");
   video.setAttribute("volume", "0.75");
-  video.style.display = "none";  // prevents to show player on startup
+  video.style.display = "none";
   timeRuler.setAttribute("id", "durationController");
   timeRuler.setAttribute("type", "range");
   timeRuler.setAttribute("value", "0");
@@ -79,81 +104,56 @@ function createAudio() {
   audioGain.addEventListener("input", setAudioGain);
 }
 function createOtherMedia() {
-  // images and pdf
-  pdfDisp.setAttribute("id", "pdfDisp"); 
-  pdfDisp.setAttribute("type", "application/pdf");  // set data attribute with url onLoad
+  // pdf
+  pdfDisp.setAttribute("id", "pdfDisp");
+  pdfDisp.setAttribute("type", "application/pdf"); // set data attribute with url onLoad
   pdfDisp.setAttribute("width", "100%");
   pdfDisp.setAttribute("height", "800px");
 }
-function createPlaybackRadios() {
-  plbr_0_5.setAttribute("name", "plbr");
-  plbr_0_5.id = "plbr_0_5";
-  plbr_0_5.type = "radio";
+function createPlayRateSelect() {
+  playbackRate__select.setAttribute("id", "playbackRate__select"); // onChange, selectedIndex
+  playbackRate__select.style.display = "none";
 
-  plbr_1_0.setAttribute("name", "plbr");
-  plbr_1_0.id = "plbr_1_0";
-  plbr_1_0.type = "radio";
-  plbr_1_0.setAttribute("checked", "");  // checked
-
-  plbr_1_5.setAttribute("name", "plbr");
-  plbr_1_5.id = "plbr_1_5";
-  plbr_1_5.type = "radio";
-
-  plbr_2_0.setAttribute("name", "plbr");
-  plbr_2_0.id = "plbr_2_0";
-  plbr_2_0.type = "radio";
-
-  plbr_0_5.addEventListener("input", setPlavbackRateHalf);
-  plbr_1_0.addEventListener("input", setPlavbackRateOne);
-  plbr_1_5.addEventListener("input", setPlavbackRateOneHalf);
-  plbr_2_0.addEventListener("input", setPlavbackRateTwo);
+  for (let idx = 0; idx < playbackRates.length; idx++) {
+    let option = document.createElement("option");
+    option.text = playbackRates[idx];
+    option.value = option.text;
+    playbackRate__select.options.add(option);
+  }
+  playbackRate__select.addEventListener("change", getPlaybackRateSelect);
+}
+function getPlaybackRateSelect() {
+  const rate =
+    playbackRate__select.options[playbackRate__select.selectedIndex].value;
+  video.playbackRate = rate;
+  imgPlaybackRate.src =
+    "/static/images/playlistBooster-equalizer-thumb-speed-" + rate + ".svg";
+  playbackRate__select.style.display = "none";
+  playrateSelector.isShown = false;
+  setIdbValue({ objectStore: "video", updFields: { speedRate: rate } });
 }
 function getTimeSetRuler() {
-  if(! video.duration) return;
+  if (!video.duration) return;
   timeRuler.value = (video.currentTime * 100) / video.duration;
 }
 function setTimeRuler() {
   // user change range value
-  if(! video.duration) return;
+  if (!video.duration) return;
   video.currentTime = (video.duration / 100) * timeRuler.value;
 }
 function setAudioVolume() {
   video.volume = audioVolume.value / 100;
+  setIdbValue({
+    objectStore: "video",
+    updFields: { volume: audioVolume.value },
+  });
 }
 function setAudioGain() {
   gainNode.gain.value = audioGain.value;
+  setIdbValue({ objectStore: "video", updFields: { gain: audioGain.value } });
 }
-function setPlavbackRateHalf() {
-  plbr_0_5.checked = true;
-  video.playbackRate = 0.5;
-}
-function setPlavbackRateOne() {
-  plbr_1_0.checked = true;
-  video.playbackRate = 1.0;
-}
-function setPlavbackRateOneHalf() {
-  plbr_1_5.checked = true;
-  video.playbackRate = 1.5;
-}
-function setPlavbackRateTwo() {
-  plbr_2_0.checked = true;
-  video.playbackRate = 2.0;
-}
-function setCheckboxVdoScreen() {
-  if (checkboxVdoScreen.checked) {
-    video.style.display = "block";
-  } else {
-    video.style.display = "none";
-  }
-}
-/**
- * Gain node and a analyzer visual show on canvas.
- * enable only for local sound files; MUST be removed for Networksound (if!)
- */
-function connectAnalyzer() {
-  // only local sound files, else complete silence (CORS)
-  audioSource = audioContext.createMediaElementSource(video);
-  audioSource.connect(analyserNodeOne).connect(gainNode).connect(audioContext.destination);  // audio + extra analyzer
+function connectAudioSource() {
+  audioSource.connect(analyserNodeOne);
   audioSource.connect(analyserNodeTwo); // data copy for analyzer in fake menu bar
 }
 function runLocalSound() {
