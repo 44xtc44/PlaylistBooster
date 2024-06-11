@@ -1,9 +1,9 @@
 {
-  "version":"1.4",
+  "version":"1.5",
   "author": "René Horn",
   "name":"Playlist Booster Shuffle [Volume Gain]",
   "short_name": "PlaylistBooster",
-  "description": "Offline ( Android ) mp3, mp4 video player. Gain booster, Time-seek and playback rate options. PDF support. Quick load your audio course and jump around in the files remaining time. List may double tap if loaded.",
+  "description": "Offline ( Android ) mp3, mp4 video player. Gain booster, equalizer, Time-seek and playback rate options. PDF support. Quick load your audio course and jump around in the files remaining time. List may double tap if loaded.",
   "manifest_version":2,
   "homepage_url": "https://github.com/44xtc44/PlaylistBooster.git",
   "browser_action": {
