@@ -1,0 +1,12 @@
+{
+    "name": "playlist-booster",
+    "version": "1.5.0",
+    "author": "44xtc44@gmail.com",
+    "scripts": {
+        "test": "jest"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "jsdoc": "^4.0.3"
+    }
+}
