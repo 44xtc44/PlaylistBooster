@@ -7,15 +7,16 @@ Runs on FireFox.
 
 * Offline ( Android ) mp3, mp4 video player
 * Gain booster, Time-seek and playback rate options 
+* Multi-band equalizer
 * pdf support
 
 Mozilla Add-on: https://addons.mozilla.org/en-US/firefox/addon/playlistbooster/
 
+ReadTheDocs  (code doc): https://playlistbooster.readthedocs.io/en/latest/README.html
+
 # Why
 
 Working with multi-file upload objects, an old school mp3 player appeared in my mind's eye. 
-
-This guy follows me on my cell phone and helps me out with my spanish course and at cycling.
 
 # How it works
 
@@ -98,6 +99,23 @@ Works with bluetooth headphones!
 
 
 # Known issues
+
+### FireFox for Android looses file collection object  
+
+(A) FF video element 
+will stop playing at all, if the PlaylistBooster tab is in the 
+background and you want to bring it to the foreground.
+
+(B) FF video element
+will stop playing if the PlaylistBooster tab is in the 
+background and you open another website.
+
+Temporary solution: Press app reload button.
+
+### FireFox for Android Add-on not visible (DEV)  
+
+FireFox Nightly MUST have an open tab (i.e wikipedia) 
+before you can see/click the (<temporay> web-ext ) Add-on in the Extension bar.
 
 
 # Contributions
