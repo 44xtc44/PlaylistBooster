@@ -5,7 +5,7 @@
  */
 function openTab(){
     var newTab = browser.tabs.create({ 
-      url: "/playlistShuffleBooster.html",
+      url: "/index.html",
       active:true
     }).then(() => {
       browser.tabs.executeScript({
