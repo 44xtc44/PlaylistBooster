@@ -13,7 +13,7 @@
 /**
  * Browser extension for PC and Android
  * @author 'www.github.com/44xtc44'
- * @version 1.5
+ * @version 1.6
  * @since 1.0
  * @see license {Apache 2.0 License (2024), René Horn}
  *
@@ -50,7 +50,6 @@ var playList = undefined; // instance of class PlayList
 window.addEventListener("load", () => {
   createAudio();
   createOtherMedia();
-  createPlayRateSelect();
   createPlayGround();
 
   arrangePlayGround();
@@ -71,6 +70,7 @@ window.addEventListener("load", () => {
     });
   animationMain();
   equalizerUI();
+  createPlayRateSelect();
 });
 
 function createAudio() {
