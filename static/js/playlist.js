@@ -92,12 +92,9 @@ class PlayList {
     this.prettifyDisplayRow();
     pdfDisp.data = ""; // spanish course has a pdf document
 
-    getIdbValue({ objectStore: "video" }).then((dataSet) => {
-      setTimeout(function () {
-        // detach from promise q, else no DOM update
-        video.playbackRate = dataSet.speedRate;
-      }, 0);
-    });
+    getIdbValue({ objectStore: "video" }).then(
+      (dataSet) => (video.playbackRate = dataSet.speedRate)
+    );
 
     this.file = this.playListMember[this.trackNumber];
     this.loadedFileName = this.file.name.toLowerCase();
@@ -105,7 +102,7 @@ class PlayList {
 
     /* BUG if Android FF tab focus is lost. Check in FF Nightly log
      * https://stackoverflow.com/questions/25866145/convert-local-video-file-into-media-stream
-    */
+     */
     // fetch(video.src).then((response) => console.log(response));
     // video.onplay = function () {
     //   const stream = video.mozCaptureStream();

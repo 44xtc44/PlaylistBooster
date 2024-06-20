@@ -100,18 +100,15 @@ function getIdbValue(options = {}) {
         if (options.updFun) options.updFun(dataClone);
 
         let msg = "<-restore".concat(JSON.stringify(dataClone, null));
-        setTimeout(() => {
-          // detach from promise q, else no DOM update
-          appendDiv({
-            // app state stack of divs
-            parentId: logDiv,
-            childId: "getIdbValue_data.onsuccess".concat(
-              Date.now() + Math.random()
-            ),
-            innerText: msg,
-            elemClass: "msgDivs",
-          });
-        }, 0);
+        appendDiv({
+          // app state stack of divs
+          parentId: logDiv,
+          childId: "getIdbValue_data.onsuccess".concat(
+            Date.now() + Math.random()
+          ),
+          innerText: msg,
+          elemClass: "msgDivs",
+        });
         resolve(dataClone);
       };
 
@@ -172,17 +169,14 @@ function setIdbValue(options) {
 
       let msg = "set-> ".concat(JSON.stringify(updFields, null));
 
-      setTimeout(function () {
-        // detach from promise q, else no DOM update
-        appendDiv({
-          parentId: logDiv,
-          childId: "setIdbValue_data.onsuccess".concat(
-            Date.now() + Math.random()
-          ),
-          innerText: msg,
-          elemClass: "msgDivs",
-        });
-      }, 0);
+      appendDiv({
+        parentId: logDiv,
+        childId: "setIdbValue_data.onsuccess".concat(
+          Date.now() + Math.random()
+        ),
+        innerText: msg,
+        elemClass: "msgDivs",
+      });
     };
 
     data.onerror = (event) => {
