@@ -102,6 +102,8 @@ Works with bluetooth headphones!
 
 ### FireFox for Android looses file collection object  
 
+ticket opened: https://bugzilla.mozilla.org/show_bug.cgi?id=1903558
+
 (A) FF video element 
 will stop playing at all, if the PlaylistBooster tab is in the 
 background and you want to bring it to the foreground.
