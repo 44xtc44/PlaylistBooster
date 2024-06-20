@@ -36,7 +36,10 @@ function restoreVideo(options) {
     ".svg";
   // activate number in option of select menu, so it is default; current is not selectable, no 'onChange'
   document.getElementById("playbackRate__select").selectedIndex =
-    options.speedRate;
+    playbackRates.indexOf(options.speedRate);
+    let y = options.speedRate
+  let x = playbackRates.indexOf(options.speedRate);
+  let z=1;
 }
 
 /**

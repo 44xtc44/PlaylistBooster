@@ -17,7 +17,7 @@ const msgShuffleOff = '';
 function constantsDocu() {
 	// To write directly in sphinx docu module.
 }
-const playbackRates = [0.5, 1.0, 1.5, 2.0];
+const playbackRates = ["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2"];
 
 const allowedFileContent = [
 	"video/mpeg, audio/mpeg",

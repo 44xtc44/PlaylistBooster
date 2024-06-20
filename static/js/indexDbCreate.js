@@ -43,7 +43,7 @@ const videoDict = {
   video: {
     id: "video",
     screenPower: false,
-    speedRate: 1,
+    speedRate: "1",
     volume: 75,
     gain: 1.1,
   },
